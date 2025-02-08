@@ -1,0 +1,262 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Estilos para o modo escuro */
+.dark-mode {
+    background-color: #222;
+    color: #f4f4f4;
+}
+
+/* Ajuste para os links no modo escuro */
+.dark-mode a {
+    color: #00b4d8; /* Azul claro para melhor contraste */
+}
+
+.dark-mode nav ul li a {
+    color: #00b4d8; /* Ajuste dos links no menu */
+}
+
+/* Botão no modo escuro */
+.dark-mode #toggle-theme {
+    background-color: #f4f4f4;
+    color: #222;
+}
+
+.dark-mode #toggle-theme:hover {
+    background-color: #ddd;
+}
+
+/* Ajustando seções e formulários para melhor visibilidade */
+.dark-mode section {
+    background: #333;
+    color: #f4f4f4;
+}
+
+.dark-mode input,
+.dark-mode select {
+    background-color: #444;
+    color: white;
+    border: 1px solid #777;
+}
+
+.dark-mode input::placeholder {
+    color: #bbb;
+}
+
+/* Rodapé no modo escuro */
+.dark-mode footer {
+    background: #111;
+    color: #bbb;
+}
+
+#toggle-theme {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#toggle-theme:hover {
+    background-color: #0096c7;
+}
+
+/* Cabeçalho */
+header {
+    background: #0077b6;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+
+/* Seções */
+section {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão */
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #00b4d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0096c7;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #023e8a;
+    color: white;
+    margin-top: 20px;
+}
+
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+nav ul li a:hover {
+    background-color: #00b4d8;
+    transform: translateY(-2px);
+}
+
+nav ul li a:active {
+    background-color: #0096c7;
+    transform: translateY(0);
+}
+
+nav ul li a:focus {
+    outline: 2px solid #00b4d8;
+    outline-offset: 2px;
+}
+
+#link-form{
+    text-decoration: none;
+}
+
+/* Formulário */
+form {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.form-group label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="submit"] {
+    padding: 15px 30px;
+    font-size: 18px;
+    width: 200px;
+    cursor: pointer;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.header-logo {
+    width: 160px;
+    height: auto;
+}
+
+#caminho_azul{
+    color: #0077b6;
+    font-weight: bold;
+}
+
+#sobre-itens{
+    font-weight: bold;
+}
+
+.inicio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.inicio-text {
+    flex: 1;
+}
+
+.inicio-image {
+    max-width: 400px;
+    height: auto;
+}
+
+#imagem-caminho {
+    float: right;
+    max-width: 100%;
+    width: 400px;
+    height: auto;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.botao_artigo{
+    background-color: #0077b6;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.botao_artigo:hover{
+    background-color: #0096c7;
+}
+
+.lista-materiais{
+    margin-left: 40px;
+}
+
+.ps_negrito, .sp_negrito{
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Avaliação</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Formulário de Avaliação</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="formulario.html">Formulário</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <form>
+            <div class="form-group">
+                <label for="nome">Nome do responsável:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nomr">Nome da criança:</label>
+                <input type="text" id="nomr" name="nomr" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idade">Idade da criança:</label>
+                <input type="number" id="idade" name="idade" required>
+            </div>
+
+            <div class="form-group">
+                <label for="suporte">Nível de suporte:</label>
+                <select id="suporte" name="suporte" required>
+                    <option value="">Selecione</option>
+                    <option value="nivel1">Nível 1</option>
+                    <option value="nivel2">Nível 2</option>
+                    <option value="nivel3">Nível 3</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="terapia">Recebe terapia desde o início do diagnóstico?</label>
+                <select id="terapia" name="terapia" required>
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cuidador">Quem cuida da criança:</label>
+                <input type="text" id="cuidador" name="cuidador" required>
+            </div>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Caminho Azul. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
