@@ -59,10 +59,11 @@ document.addEventListener("DOMContentLoaded", function () {
     input.addEventListener("input", salvarDados);
   });
 
-  // Limpar os dados ao enviar o formulário
-  form.addEventListener("submit", function () {
-    localStorage.removeItem("formularioCaminhoAzul");
-  });
+  if (form)
+    // Limpar os dados ao enviar o formulário
+    form.addEventListener("submit", function () {
+      localStorage.removeItem("formularioCaminhoAzul");
+    });
 
   // Chamar a função para carregar os dados salvos
   carregarDados();
