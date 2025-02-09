@@ -31,9 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Função para salvar os dados no localStorage
   function salvarDados() {
-    let dadosFormulario = {};
+    const dadosFormulario = {};
+
     inputs.forEach((input) => {
-      dadosFormulario[input.name] = input.value;
+      if (input.type !== "submit") dadosFormulario[input.name] = input.value;
     });
     localStorage.setItem(
       "formularioCaminhoAzul",
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Monitorar mudanças nos inputs e salvar automaticamente
   inputs.forEach((input) => {
-    input.addEventListener("input", salvarDados);
+    if (input.type !== "submit") input.addEventListener("input", salvarDados);
   });
 
   if (form)
@@ -83,11 +84,29 @@ document.addEventListener("DOMContentLoaded", function () {
   function lerTexto(texto) {
     if ("speechSynthesis" in window) {
       const mensagem = new SpeechSynthesisUtterance(texto);
+
       mensagem.lang = "pt-BR"; // Define o idioma para português
-      mensagem.rate = 1; // Velocidade da fala (1 é normal)
+      mensagem.rate = 0.85; // Velocidade da fala (1 é normal)
       speechSynthesis.speak(mensagem);
     } else {
       alert("Seu navegador não suporta leitura em voz alta.");
     }
   }
 });
+
+function enviarFormulario() {
+  if (validaFormulario()) {
+    debugger;
+    let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
+    dadosSalvos = JSON.parse(dadosSalvos);
+    console.log(dadosSalvos);
+  }
+}
+
+function validaFormulario() {
+  const requiredFields = Array.from(document.querySelectorAll("[required]"));
+
+  return !requiredFields.some((input) => {
+    if (input.value.length == 0) return true;
+  });
+}

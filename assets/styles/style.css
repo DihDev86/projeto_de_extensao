@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    text-align: justify;
 }
 
 :root {
@@ -95,6 +96,10 @@ header {
     background: var(--azul_principal);
     color: var(--branco_2);
     padding: 15px 20px;
+    text-align: center;
+}
+
+header h1 {
     text-align: center;
 }
 
