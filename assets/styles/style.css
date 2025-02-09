@@ -6,31 +6,38 @@
     font-family: Arial, sans-serif;
 }
 
+:root {
+    --bg-color: #222222;
+    --branco_1: #f4f4f4;
+    --branco_2: #ffffff;
+    --cinza_1: #333333;
+    --cinza_2: #bbbbbb;
+    --azul_principal: #0077b6;
+    --azul_claro_melhor_contraste: #00b4d8;
+    --azul-secundario: #0096c7;
+}
+
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--branco_1);
+    color: var(--cinza_1);
     transition: background 0.3s, color 0.3s;
 }
 
 /* Estilos para o modo escuro */
 .dark-mode {
-    background-color: #222;
-    color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--branco_1);
 }
 
 /* Ajuste para os links no modo escuro */
 .dark-mode a {
-    color: #00b4d8; /* Azul claro para melhor contraste */
-}
-
-.dark-mode nav ul li a {
-    color: #00b4d8; /* Ajuste dos links no menu */
+    color: var(--cinza_1);
 }
 
 /* Botão no modo escuro */
 .dark-mode #toggle-theme {
-    background-color: #f4f4f4;
-    color: #222;
+    background-color: var(--branco_1);
+    color: var(--bg-color);
 }
 
 .dark-mode #toggle-theme:hover {
@@ -39,30 +46,35 @@ body {
 
 /* Ajustando seções e formulários para melhor visibilidade */
 .dark-mode section {
-    background: #333;
-    color: #f4f4f4;
+    background: var(--cinza_1);
+    color: var(--branco_1);
 }
 
 .dark-mode input,
 .dark-mode select {
-    background-color: #444;
-    color: white;
-    border: 1px solid #777;
+    background-color: #444444;
+    color: var(--branco_2);
+    border: 1px solid #777777;
 }
 
 .dark-mode input::placeholder {
-    color: #bbb;
+    color: var(--cinza_2);
 }
 
 /* Rodapé no modo escuro */
 .dark-mode footer {
-    background: #111;
-    color: #bbb;
+    background: #111111;
+    color: var(--cinza_2);
 }
 
 #toggle-theme {
-    background-color: #0077b6;
-    color: white;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--azul_principal);
+    color: var(--branco_2);
     border: none;
     padding: 10px 15px;
     cursor: pointer;
@@ -75,13 +87,13 @@ body {
 }
 
 #toggle-theme:hover {
-    background-color: #0096c7;
+    background-color: var(--azul-secundario);
 }
 
 /* Cabeçalho */
 header {
-    background: #0077b6;
-    color: white;
+    background: var(--azul_principal);
+    color: var(--branco_2);
     padding: 15px 20px;
     text-align: center;
 }
@@ -103,7 +115,7 @@ section {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
-    background: white;
+    background: var(--branco_2);
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
@@ -114,15 +126,15 @@ button {
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 16px;
-    background: #00b4d8;
-    color: white;
+    background: var(--azul_claro_melhor_contraste);
+    color: var(--branco_2);
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background: #0096c7;
+    background: var(--azul-secundario);
 }
 
 /* Rodapé */
@@ -130,13 +142,13 @@ footer {
     text-align: center;
     padding: 15px;
     background: #023e8a;
-    color: white;
+    color: var(--branco_2);
     margin-top: 20px;
 }
 
 
 nav ul li a {
-    color: white;
+    color: var(--branco_2);
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
@@ -145,17 +157,18 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #00b4d8;
+    background-color: var(--azul_claro_melhor_contraste);
+    color: var(--branco_2);
     transform: translateY(-2px);
 }
 
 nav ul li a:active {
-    background-color: #0096c7;
+    background-color: var(--azul-secundario);
     transform: translateY(0);
 }
 
 nav ul li a:focus {
-    outline: 2px solid #00b4d8;
+    outline: 2px solid var(--azul_claro_melhor_contraste);
     outline-offset: 2px;
 }
 
@@ -206,7 +219,7 @@ input[type="submit"] {
 }
 
 #caminho_azul{
-    color: #0077b6;
+    color: var(--azul_principal);
     font-weight: bold;
 }
 
@@ -240,15 +253,15 @@ input[type="submit"] {
 }
 
 .botao_artigo{
-    background-color: #0077b6;
-    color: white;
+    background-color: var(--azul_principal);
+    color: var(--branco_2);
     text-decoration: none;
     padding: 5px;
     border-radius: 5px;
 }
 
 .botao_artigo:hover{
-    background-color: #0096c7;
+    background-color: var(--azul-secundario);
 }
 
 .lista-materiais{
