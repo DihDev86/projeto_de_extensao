@@ -1,280 +1,279 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    text-align: justify;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  text-align: justify;
 }
 
 :root {
-    --bg-color: #222222;
-    --branco_1: #f4f4f4;
-    --branco_2: #ffffff;
-    --cinza_1: #333333;
-    --cinza_2: #bbbbbb;
-    --azul_principal: #0077b6;
-    --azul_claro_melhor_contraste: #00b4d8;
-    --azul-secundario: #0096c7;
+  --bg-color: #222222;
+  --branco_1: #f4f4f4;
+  --branco_2: #ffffff;
+  --cinza_1: #333333;
+  --cinza_2: #bbbbbb;
+  --azul_principal: #0077b6;
+  --azul_claro_melhor_contraste: #00b4d8;
+  --azul-secundario: #0096c7;
 }
 
 body {
-    background-color: var(--branco_1);
-    color: var(--cinza_1);
-    transition: background 0.3s, color 0.3s;
+  background-color: var(--branco_1);
+  color: var(--cinza_1);
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Estilos para o modo escuro */
 .dark-mode {
-    background-color: var(--bg-color);
-    color: var(--branco_1);
+  background-color: var(--bg-color);
+  color: var(--branco_1);
 }
 
 /* Ajuste para os links no modo escuro */
 .dark-mode a {
-    color: var(--cinza_1);
+  color: var(--cinza_1);
 }
 
 /* Botão no modo escuro */
 .dark-mode #toggle-theme {
-    background-color: var(--branco_1);
-    color: var(--bg-color);
+  background-color: var(--branco_1);
+  color: var(--bg-color);
 }
 
 .dark-mode #toggle-theme:hover {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 /* Ajustando seções e formulários para melhor visibilidade */
 .dark-mode section {
-    background: var(--cinza_1);
-    color: var(--branco_1);
+  background: var(--cinza_1);
+  color: var(--branco_1);
 }
 
 .dark-mode input,
 .dark-mode select {
-    background-color: #444444;
-    color: var(--branco_2);
-    border: 1px solid #777777;
+  background-color: #444444;
+  color: var(--branco_2);
+  border: 1px solid #777777;
 }
 
 .dark-mode input::placeholder {
-    color: var(--cinza_2);
+  color: var(--cinza_2);
 }
 
 /* Rodapé no modo escuro */
 .dark-mode footer {
-    background: #111111;
-    color: var(--cinza_2);
+  background: #111111;
+  color: var(--cinza_2);
 }
 
 #toggle-theme {
-    width: 150px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--azul_principal);
-    color: var(--branco_2);
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--azul_principal);
+  color: var(--branco_2);
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background 0.3s;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 #toggle-theme:hover {
-    background-color: var(--azul-secundario);
+  background-color: var(--azul-secundario);
 }
 
 /* Cabeçalho */
 header {
-    background: var(--azul_principal);
-    color: var(--branco_2);
-    padding: 15px 20px;
-    text-align: center;
+  background: var(--azul_principal);
+  color: var(--branco_2);
+  padding: 15px 20px;
+  text-align: center;
 }
 
-header h1 {
-    text-align: center;
+header h1,
+footer p {
+  text-align: center;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 nav ul li {
-    margin: 0 15px;
+  margin: 0 15px;
 }
-
 
 /* Seções */
 section {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background: var(--branco_2);
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: var(--branco_2);
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Botão */
 button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 16px;
-    background: var(--azul_claro_melhor_contraste);
-    color: var(--branco_2);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: var(--azul_claro_melhor_contraste);
+  color: var(--branco_2);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: var(--azul-secundario);
+  background: var(--azul-secundario);
 }
 
 /* Rodapé */
 footer {
-    text-align: center;
-    padding: 15px;
-    background: #023e8a;
-    color: var(--branco_2);
-    margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+  background: #023e8a;
+  color: var(--branco_2);
+  margin-top: 20px;
 }
 
-
 nav ul li a {
-    color: var(--branco_2);
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-    border-radius: 3px;
+  color: var(--branco_2);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 3px;
 }
 
 nav ul li a:hover {
-    background-color: var(--azul_claro_melhor_contraste);
-    color: var(--branco_2);
-    transform: translateY(-2px);
+  background-color: var(--azul_claro_melhor_contraste);
+  color: var(--branco_2);
+  transform: translateY(-2px);
 }
 
 nav ul li a:active {
-    background-color: var(--azul-secundario);
-    transform: translateY(0);
+  background-color: var(--azul-secundario);
+  transform: translateY(0);
 }
 
 nav ul li a:focus {
-    outline: 2px solid var(--azul_claro_melhor_contraste);
-    outline-offset: 2px;
+  outline: 2px solid var(--azul_claro_melhor_contraste);
+  outline-offset: 2px;
 }
 
-#link-form{
-    text-decoration: none;
+#link-form {
+  text-decoration: none;
 }
 
 /* Formulário */
 form {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 30px;
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding: 30px;
 }
 
 .form-group {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 .form-group input,
 .form-group select {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
 }
 
 .form-group label {
-    font-size: 18px;
-    margin-bottom: 10px;
-    display: block;
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: block;
 }
 
 input[type="submit"] {
-    padding: 15px 30px;
-    font-size: 18px;
-    width: 200px;
-    cursor: pointer;
+  padding: 15px 30px;
+  font-size: 18px;
+  width: 200px;
+  cursor: pointer;
 }
 
 .header-content {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .header-logo {
-    width: 160px;
-    height: auto;
+  width: 160px;
+  height: auto;
 }
 
-#caminho_azul{
-    color: var(--azul_principal);
-    font-weight: bold;
+#caminho_azul {
+  color: var(--azul_principal);
+  font-weight: bold;
 }
 
-#sobre-itens{
-    font-weight: bold;
+#sobre-itens {
+  font-weight: bold;
 }
 
 .inicio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+#inicio div{
+  display: flex;
 }
 
 .inicio-text {
-    flex: 1;
+  flex: 1;
 }
 
 .inicio-image {
-    max-width: 400px;
-    height: auto;
+  max-width: 400px;
+  height: auto;
 }
 
 #imagem-caminho {
-    float: right;
-    max-width: 100%;
-    width: 400px;
-    height: auto;
-    margin-left: auto;
-    margin-right: 0;
+  max-width: 390px;
+  max-height: 390px;
+  margin-left: 20px;
 }
 
-.botao_artigo{
-    background-color: var(--azul_principal);
-    color: var(--branco_2);
-    text-decoration: none;
-    padding: 5px;
-    border-radius: 5px;
+.botao_artigo {
+  background-color: var(--azul_principal);
+  color: var(--branco_2);
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-.botao_artigo:hover{
-    background-color: var(--azul-secundario);
+.botao_artigo:hover {
+  background-color: var(--azul-secundario);
 }
 
-.lista-materiais{
-    margin-left: 40px;
+.lista-materiais {
+  margin-left: 40px;
 }
 
-.ps_negrito, .sp_negrito{
-    font-weight: bold;
+.ps_negrito,
+.sp_negrito {
+  font-weight: bold;
 }
-
 

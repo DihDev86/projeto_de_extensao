@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (form)
     // Limpar os dados ao enviar o formulário
-    form.addEventListener("submit", function () {
-      localStorage.removeItem("formularioCaminhoAzul");
-    });
+    form.addEventListener("submit", () =>
+      localStorage.removeItem("formularioCaminhoAzul")
+    );
 
   // Chamar a função para carregar os dados salvos
   carregarDados();
@@ -94,12 +94,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function enviarFormulario() {
+async function enviarFormulario() {
   if (validaFormulario()) {
-    debugger;
     let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
     dadosSalvos = JSON.parse(dadosSalvos);
     console.log(dadosSalvos);
+
+    await enviarMensagemGPT("Olá, como você está?")
+      .then((resposta) => console.log(resposta))
+      .catch((erro) => console.error("Erro:", erro));
   }
 }
 
@@ -109,4 +112,19 @@ function validaFormulario() {
   return !requiredFields.some((input) => {
     if (input.value.length == 0) return true;
   });
+}
+
+async function enviarMensagemGPT(mensagem) {
+  debugger;
+  const resposta = await fetch("http://localhost:3000/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: mensagem }),
+  });
+
+  const dados = await resposta.json();
+
+  return dados.content;
 }
