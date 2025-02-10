@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Avaliação</title>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./main.js" defer></script>
+    <link rel="stylesheet" href="../assets/styles/style.css">
+    <script src="https://kit.fontawesome.com/23638b2973.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <header>
-        <h1>Formulário de Avaliação</h1>
+        <img src="../assets/img/logo.png" alt="Logo Inclusão Escolar" class="header-logo">
+        <h1>Caminho Azul</h1>
+        <button id="toggle-theme"><i class="fa-solid fa-moon"></i> Modo Escuro</button>
         <nav>
             <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="formulario.html">Formulário</a></li>
+                <li><a href="./index.html">
+                        <i class="fa-solid fa-arrow-left-long"></i>
+                        Voltar
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
-
     <section>
         <form>
             <div class="form-group">
                 <label for="nome">Nome do responsável:</label>
-                <input type="text" id="nome" name="nome" required>
+                <input type="text" id="nomeResponsavel" name="nomeResponsavel" required>
             </div>
 
             <div class="form-group">
                 <label for="nomr">Nome da criança:</label>
-                <input type="text" id="nomr" name="nomr" required>
+                <input type="text" id="nomeCrianca" name="nomeCrianca" required>
             </div>
 
             <div class="form-group">
@@ -60,12 +66,14 @@
                 <input type="text" id="cuidador" name="cuidador" required>
             </div>
 
-            <input type="submit" value="Enviar">
+            <input type="submit" value="Enviar" onclick="enviarFormulario()">
         </form>
     </section>
 
     <footer>
         <p>&copy; 2025 Caminho Azul. Todos os direitos reservados.</p>
     </footer>
+    <script src="./main.js" defer></script>
 </body>
+
 </html>

@@ -1,0 +1,31 @@
+{
+  "name": "api-extensao",
+  "version": "1.0.0",
+  "description": "API para consultas ao ChatGPT da OpenAI",
+  "main": "src/api/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DihDev86/projeto_de_extensao.git"
+  },
+  "keywords": [
+    "autismo",
+    "tea",
+    "alunos",
+    "inclusao"
+  ],
+  "author": "Marcone Melo Mendonça",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DihDev86/projeto_de_extensao/issues"
+  },
+  "homepage": "https://github.com/DihDev86/projeto_de_extensao#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
