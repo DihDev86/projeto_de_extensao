@@ -114,9 +114,8 @@ async function enviarFormulario() {
   if (validaFormulario()) {
     let dadosSalvos = localStorage.getItem(keys.formularioCaminhoAzul);
     dadosSalvos = JSON.parse(dadosSalvos);
-    console.log(dadosSalvos);
 
-    await consultarGemini("Olá, Gemini. Como você está?")
+    await consultarGemini(formataPergunta(dadosSalvos))
       .then((resposta) => console.log(resposta))
       .catch((erro) => console.error("Erro:", erro));
   }
@@ -146,4 +145,21 @@ async function consultarGemini(pergunta) {
   localStorage.setItem(keys.aiChatHistory, JSON.stringify(dados));
 
   return dados;
+}
+
+function formataPergunta(dados) {
+  const DICT = {};
+
+  if (dados["terapia"] === "sim")
+    DICT["terapia"] = "mas já recebe terapia desde o início do diagnóstico";
+  else
+    DICT["terapia"] = ", entretanto ela ainda não recebe terapia para seu TEA";
+
+  const result = `Oi, me chamo ${dados.nomeResponsavel}, tudo bem?\n
+  Possuo uma criança que se chama ${dados.nomeCrianca}, atualmente com ${dados.idade} anos de idade.\n
+  Ela foi diagnosticada com autismo de ${dados.suporte} ${DICT.terapia}.\n
+  Atualmente ela está sob os cuidados de ${dados.cuidador}.\n
+  Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
+
+  return result;
 }
