@@ -1,3 +1,8 @@
+const KEYS = {
+  formularioCaminhoAzul: crypto.randomUUID(),
+  aiChatHistory: crypto.randomUUID(),
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("toggle-theme");
   const body = document.body;
@@ -37,14 +42,15 @@ document.addEventListener("DOMContentLoaded", function () {
       if (input.type !== "submit") dadosFormulario[input.name] = input.value;
     });
     localStorage.setItem(
-      "formularioCaminhoAzul",
+      KEYS.formularioCaminhoAzul,
       JSON.stringify(dadosFormulario)
     );
+    localStorage.setItem(KEYS.aiChatHistory, JSON.stringify([]));
   }
 
   // Carregar dados salvos ao iniciar a página
-  function carregarDados() {
-    let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
+  function carregarDados(key) {
+    let dadosSalvos = localStorage.getItem(key);
     if (dadosSalvos) {
       dadosSalvos = JSON.parse(dadosSalvos);
       inputs.forEach((input) => {
@@ -63,11 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form)
     // Limpar os dados ao enviar o formulário
     form.addEventListener("submit", () =>
-      localStorage.removeItem("formularioCaminhoAzul")
+      localStorage.removeItem(KEYS.formularioCaminhoAzul)
     );
 
   // Chamar a função para carregar os dados salvos
-  carregarDados();
+  carregarDados(KEYS.formularioCaminhoAzul);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -96,11 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function enviarFormulario() {
   if (validaFormulario()) {
-    let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
+    let dadosSalvos = localStorage.getItem(KEYS.formularioCaminhoAzul);
     dadosSalvos = JSON.parse(dadosSalvos);
     console.log(dadosSalvos);
 
-    await enviarMensagemGPT("Olá, como você está?")
+    await perguntarParaIA("Olá, Gemini. Como você está?")
       .then((resposta) => console.log(resposta))
       .catch((erro) => console.error("Erro:", erro));
   }
@@ -114,17 +120,17 @@ function validaFormulario() {
   });
 }
 
-async function enviarMensagemGPT(mensagem) {
+async function perguntarParaIA(pergunta) {
   debugger;
   const resposta = await fetch("http://localhost:3000/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ message: mensagem }),
+    body: JSON.stringify({ question: pergunta }),
   });
 
   const dados = await resposta.json();
 
-  return dados.content;
+  return dados;
 }
