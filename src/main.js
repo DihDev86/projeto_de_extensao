@@ -1,7 +1,16 @@
-const KEYS = {
-  formularioCaminhoAzul: crypto.randomUUID(),
-  aiChatHistory: crypto.randomUUID(),
-};
+let keys = undefined;
+const hasStoredKeys = JSON.parse(localStorage.getItem("keys")) != undefined;
+
+if (!hasStoredKeys) {
+  localStorage.setItem(
+    "keys",
+    JSON.stringify({
+      formularioCaminhoAzul: crypto.randomUUID(),
+      aiChatHistory: crypto.randomUUID(),
+    })
+  );
+  window.location.reload();
+} else keys = JSON.parse(localStorage.getItem("keys"));
 
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("toggle-theme");
@@ -39,13 +48,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const dadosFormulario = {};
 
     inputs.forEach((input) => {
-      if (input.type !== "submit") dadosFormulario[input.name] = input.value;
+      if (input.type !== "button") dadosFormulario[input.name] = input.value;
     });
     localStorage.setItem(
-      KEYS.formularioCaminhoAzul,
+      keys.formularioCaminhoAzul,
       JSON.stringify(dadosFormulario)
     );
-    localStorage.setItem(KEYS.aiChatHistory, JSON.stringify([]));
+    if (!JSON.parse(localStorage.getItem(keys.aiChatHistory)))
+      localStorage.setItem(keys.aiChatHistory, JSON.stringify([]));
   }
 
   // Carregar dados salvos ao iniciar a página
@@ -69,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form)
     // Limpar os dados ao enviar o formulário
     form.addEventListener("submit", () =>
-      localStorage.removeItem(KEYS.formularioCaminhoAzul)
+      localStorage.removeItem(keys.formularioCaminhoAzul)
     );
 
   // Chamar a função para carregar os dados salvos
-  carregarDados(KEYS.formularioCaminhoAzul);
+  carregarDados(keys.formularioCaminhoAzul);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -102,11 +112,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function enviarFormulario() {
   if (validaFormulario()) {
-    let dadosSalvos = localStorage.getItem(KEYS.formularioCaminhoAzul);
+    let dadosSalvos = localStorage.getItem(keys.formularioCaminhoAzul);
     dadosSalvos = JSON.parse(dadosSalvos);
     console.log(dadosSalvos);
 
-    await perguntarParaIA("Olá, Gemini. Como você está?")
+    await consultarGemini("Olá, Gemini. Como você está?")
       .then((resposta) => console.log(resposta))
       .catch((erro) => console.error("Erro:", erro));
   }
@@ -120,17 +130,20 @@ function validaFormulario() {
   });
 }
 
-async function perguntarParaIA(pergunta) {
-  debugger;
+async function consultarGemini(pergunta) {
   const resposta = await fetch("http://localhost:3000/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ question: pergunta }),
+    body: JSON.stringify({
+      question: pergunta,
+      history: JSON.parse(localStorage.getItem(keys.aiChatHistory)),
+    }),
   });
 
   const dados = await resposta.json();
+  localStorage.setItem(keys.aiChatHistory, JSON.stringify(dados));
 
   return dados;
 }

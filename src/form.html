@@ -27,25 +27,25 @@
     <section>
         <form>
             <div class="form-group">
-                <label for="nome">Nome do responsável:</label>
-                <input type="text" id="nomeResponsavel" name="nomeResponsavel" required>
+                <label for="nomeResponsavel">Nome do responsável:</label>
+                <input type="text" id="nomeResponsavel" name="nomeResponsavel" value="TEste" value="TEste" required>
             </div>
 
             <div class="form-group">
-                <label for="nomr">Nome da criança:</label>
-                <input type="text" id="nomeCrianca" name="nomeCrianca" required>
+                <label for="nomeCrianca">Nome da criança:</label>
+                <input type="text" id="nomeCrianca" name="nomeCrianca" value="TEste" required>
             </div>
 
             <div class="form-group">
                 <label for="idade">Idade da criança:</label>
-                <input type="number" id="idade" name="idade" required>
+                <input type="number" id="idade" name="idade" value="1" required>
             </div>
 
             <div class="form-group">
                 <label for="suporte">Nível de suporte:</label>
                 <select id="suporte" name="suporte" required>
                     <option value="">Selecione</option>
-                    <option value="nivel1">Nível 1</option>
+                    <option selected value="nivel1">Nível 1</option>
                     <option value="nivel2">Nível 2</option>
                     <option value="nivel3">Nível 3</option>
 
@@ -56,17 +56,17 @@
                 <label for="terapia">Recebe terapia desde o início do diagnóstico?</label>
                 <select id="terapia" name="terapia" required>
                     <option value="">Selecione</option>
-                    <option value="sim">Sim</option>
+                    <option selected value="sim">Sim</option>
                     <option value="nao">Não</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="cuidador">Quem cuida da criança:</label>
-                <input type="text" id="cuidador" name="cuidador" required>
+                <input type="text" id="cuidador" name="cuidador" value="TEste" required>
             </div>
 
-            <input type="submit" value="Enviar" onclick="enviarFormulario()">
+            <button type="button" onclick="enviarFormulario()">Enviar</button>           
         </form>
     </section>
 
