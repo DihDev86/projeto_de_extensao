@@ -5,8 +5,8 @@ if (!hasStoredKeys) {
   localStorage.setItem(
     "keys",
     JSON.stringify({
-      formularioCaminhoAzul: crypto.randomUUID(),
-      aiChatHistory: crypto.randomUUID(),
+      k01: crypto.randomUUID(),
+      k02: crypto.randomUUID(),
     })
   );
   window.location.reload();
@@ -50,12 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
     inputs.forEach((input) => {
       if (input.type !== "button") dadosFormulario[input.name] = input.value;
     });
-    localStorage.setItem(
-      keys.formularioCaminhoAzul,
-      JSON.stringify(dadosFormulario)
-    );
-    if (!JSON.parse(localStorage.getItem(keys.aiChatHistory)))
-      localStorage.setItem(keys.aiChatHistory, JSON.stringify([]));
+    localStorage.setItem(keys.k01, JSON.stringify(dadosFormulario));
+    if (!JSON.parse(localStorage.getItem(keys.k02)))
+      localStorage.setItem(keys.k02, JSON.stringify([]));
   }
 
   // Carregar dados salvos ao iniciar a página
@@ -78,12 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (form)
     // Limpar os dados ao enviar o formulário
-    form.addEventListener("submit", () =>
-      localStorage.removeItem(keys.formularioCaminhoAzul)
-    );
+    form.addEventListener("submit", () => localStorage.setItem(keys.k01, "{}"));
 
   // Chamar a função para carregar os dados salvos
-  carregarDados(keys.formularioCaminhoAzul);
+  carregarDados(keys.k01);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -112,14 +107,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function enviarFormulario() {
   if (validaFormulario()) {
-    let dadosSalvos = localStorage.getItem(keys.formularioCaminhoAzul);
-    dadosSalvos = JSON.parse(dadosSalvos);
+    let savedData = localStorage.getItem(keys.k01);
+    savedData = JSON.parse(savedData);
+    const questionF = formataPergunta(savedData);
 
-    await consultarGemini(formataPergunta(dadosSalvos))
+    await consultarGemini(questionF)
       .then((resposta) => console.log(resposta))
       .catch((erro) => console.error("Erro:", erro));
   }
 }
+
+function limparFormulario() {}
 
 function validaFormulario() {
   const requiredFields = Array.from(document.querySelectorAll("[required]"));
@@ -137,12 +135,12 @@ async function consultarGemini(pergunta) {
     },
     body: JSON.stringify({
       question: pergunta,
-      history: JSON.parse(localStorage.getItem(keys.aiChatHistory)),
+      history: JSON.parse(localStorage.getItem(keys.k02)),
     }),
   });
 
   const dados = await resposta.json();
-  localStorage.setItem(keys.aiChatHistory, JSON.stringify(dados));
+  localStorage.setItem(keys.k02, JSON.stringify(dados));
 
   return dados;
 }

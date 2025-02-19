@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Avaliação</title>
+    <link rel="stylesheet" href="../assets/styles/reset.css">
     <link rel="stylesheet" href="../assets/styles/style.css">
-    <script src="https://kit.fontawesome.com/23638b2973.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../assets/styles/styles_form.css">
+    <script src="https://kit.fontawesome.com/23638b2973.js" crossorigin="anonymous" defer></script>
 </head>
 
 <body>
@@ -26,47 +28,59 @@
     </header>
     <section>
         <form>
+            <div id="formulario">
+                <h2>Formulário de Orientações<span>*</span></h2>
+                <p>Preencha as informações abaixo para receber orientações personalizadas.</p>
+                <hr>
+                <p class="rmk"><span>*</span> - As orientações resultantes desse formulário, são automatizadas por
+                    Inteligência Artificial.</p>
+            </div>
             <div class="form-group">
                 <label for="nomeResponsavel">Nome do responsável:</label>
                 <input type="text" id="nomeResponsavel" name="nomeResponsavel" value="TEste" value="TEste" required>
             </div>
-
             <div class="form-group">
-                <label for="nomeCrianca">Nome da criança:</label>
-                <input type="text" id="nomeCrianca" name="nomeCrianca" value="TEste" required>
+                <div class="colums">
+                    <div class="form-group">
+                        <label for="idade">Idade da criança:</label>
+                        <input type="number" id="idade" name="idade" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nivelSuporte">Nível de suporte:</label>
+                        <select id="nivelSuporte" name="nivelSuporte" required>
+                            <option value="">Selecione</option>
+                            <option selected value="nível 1">Nível 1</option>
+                            <option value="nível 2">Nível 2</option>
+                            <option value="nível 3">Nível 3</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoSuporte">Tipo de suporte:</label>
+                        <select id="tipoSuporte" name="tipoSuporte" required>
+                            <option value="">Selecione</option>
+                            <option selected value="não verbal">Não verbal</option>
+                            <option value="agressivo">Agressivo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="terapia">Recebe terapia desde o início do diagnóstico?</label>
+                        <select id="terapia" name="terapia" required>
+                            <option value="">Selecione</option>
+                            <option selected value="sim">Sim</option>
+                            <option value="não">Não</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="terapia">Gostarias de adicionar outras informações?</label>
+                    <textarea></textarea>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="idade">Idade da criança:</label>
-                <input type="number" id="idade" name="idade" value="1" required>
+            <div class="colums">
+                <button type="button" onclick="enviarFormulario()">Enviar</button>
+                <button type="button" class="clear" onclick="limparFormulario()">Limpar</button>
             </div>
-
-            <div class="form-group">
-                <label for="suporte">Nível de suporte:</label>
-                <select id="suporte" name="suporte" required>
-                    <option value="">Selecione</option>
-                    <option selected value="nível 1">Nível 1</option>
-                    <option value="nível 2">Nível 2</option>
-                    <option value="nível 3">Nível 3</option>
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="terapia">Recebe terapia desde o início do diagnóstico?</label>
-                <select id="terapia" name="terapia" required>
-                    <option value="">Selecione</option>
-                    <option selected value="sim">Sim</option>
-                    <option value="não">Não</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="cuidador">Quem cuida da criança:</label>
-                <input type="text" id="cuidador" name="cuidador" value="TEste" required>
-            </div>
-
-            <button type="button" onclick="enviarFormulario()">Enviar</button>           
         </form>
     </section>
 
