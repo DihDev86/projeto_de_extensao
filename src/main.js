@@ -1,24 +1,36 @@
+// ===========================================================================
+// ------------------------------ Escopo GLOBAL ------------------------------
+// ===========================================================================
+
+const getLocalStorage = (key) => {
+  return JSON.parse(localStorage.getItem(key));
+};
+
+const setLocalStorage = (key, value) =>
+  localStorage.setItem(key, JSON.stringify(value));
+
 let keys = undefined;
-const hasStoredKeys = JSON.parse(localStorage.getItem("keys")) != undefined;
+const hasStoredKeys = getLocalStorage("keys") != undefined;
 
 if (!hasStoredKeys) {
-  localStorage.setItem(
-    "keys",
-    JSON.stringify({
-      k01: crypto.randomUUID(),
-      k02: crypto.randomUUID(),
-    })
-  );
+  setLocalStorage("keys", {
+    k01: crypto.randomUUID(),
+    k02: crypto.randomUUID(),
+    k03: crypto.randomUUID(),
+  });
   window.location.reload();
-} else keys = JSON.parse(localStorage.getItem("keys"));
+} else keys = getLocalStorage("keys");
 
+// ===========================================================================
+// ---------------------------- Escolha de Tema ------------------------------
+// ===========================================================================
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("toggle-theme");
   const body = document.body;
 
   if (themeToggle) {
     // Verifica se o usuário já escolheu um tema antes:
-    if (localStorage.getItem("theme") === "dark") {
+    if (getLocalStorage(keys.k03) === false) {
       body.classList.add("dark-mode");
       themeToggle.innerHTML = "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro";
     }
@@ -27,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
       body.classList.toggle("dark-mode");
 
       if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
+        setLocalStorage(keys.k03, false);
         themeToggle.innerHTML =
           "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro";
       } else {
-        localStorage.setItem("theme", "light");
+        setLocalStorage(keys.k03, true);
         themeToggle.innerHTML =
           "<i class='fa-solid fa-moon'></i>&nbsp;Modo Escuro";
       }
@@ -39,48 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-  const inputs = document.querySelectorAll("form input, form select");
-
-  // Função para salvar os dados no localStorage
-  function salvarDados() {
-    const dadosFormulario = {};
-
-    inputs.forEach((input) => {
-      if (input.type !== "button") dadosFormulario[input.name] = input.value;
-    });
-    localStorage.setItem(keys.k01, JSON.stringify(dadosFormulario));
-    if (!JSON.parse(localStorage.getItem(keys.k02)))
-      localStorage.setItem(keys.k02, JSON.stringify([]));
-  }
-
-  // Carregar dados salvos ao iniciar a página
-  function carregarDados(key) {
-    let dadosSalvos = localStorage.getItem(key);
-    if (dadosSalvos) {
-      dadosSalvos = JSON.parse(dadosSalvos);
-      inputs.forEach((input) => {
-        if (dadosSalvos[input.name]) {
-          input.value = dadosSalvos[input.name];
-        }
-      });
-    }
-  }
-
-  // Monitorar mudanças nos inputs e salvar automaticamente
-  inputs.forEach((input) => {
-    if (input.type !== "submit") input.addEventListener("input", salvarDados);
-  });
-
-  if (form)
-    // Limpar os dados ao enviar o formulário
-    form.addEventListener("submit", () => localStorage.setItem(keys.k01, "{}"));
-
-  // Chamar a função para carregar os dados salvos
-  carregarDados(keys.k01);
-});
-
+// ===========================================================================
+// ----------------------------- Acessibilidade ------------------------------
+// ===========================================================================
 document.addEventListener("DOMContentLoaded", function () {
   const botoesLeitura = document.querySelectorAll(".btn-ler");
 
@@ -105,14 +78,70 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// ===========================================================================
+// -------------------- Formulário de Orientações ----------------------------
+// ===========================================================================
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const formElList = document.querySelectorAll(
+    "#formulario input, #formulario select"
+  );
+
+  function salvarDados() {
+    const formData = {};
+
+    formElList.forEach((el) => {
+      if (el.type !== "button") formData[el.name] = el.value;
+    });
+
+    setLocalStorage(keys.k01, formData);
+    if (!getLocalStorage(keys.k02)) {
+      setLocalStorage(keys.k02, []);
+    }
+  }
+
+  // Carregar dados salvos ao iniciar a página
+  function recarregaDados(key) {
+    const dadosSalvos = getLocalStorage(key);
+
+    if (dadosSalvos) {
+      formElList.forEach((input) => {
+        if (dadosSalvos[input.name]) {
+          input.value = dadosSalvos[input.name];
+        }
+      });
+    }
+  }
+
+  // Monitorar mudanças nos inputs e salvar automaticamente
+  formElList.forEach((input) => {
+    if (input.type !== "submit") input.addEventListener("input", salvarDados);
+  });
+
+  if (form)
+    form.addEventListener("submit", () => setLocalStorage(keys.k01, {}));
+
+  recarregaDados(keys.k01);
+});
+
 async function enviarFormulario() {
   if (validaFormulario()) {
-    let savedData = localStorage.getItem(keys.k01);
-    savedData = JSON.parse(savedData);
+    let savedData = getLocalStorage(keys.k01);
+    //savedData = JSON.parse(savedData);
     const questionF = formataPergunta(savedData);
 
     await consultarGemini(questionF)
-      .then((resposta) => console.log(resposta))
+      .then((resposta) => {
+        console.log(resposta);
+        document.getElementById("interactions").classList.remove("invisible");
+        resposta.forEach((interaction) => {
+          const author =
+            interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):";
+
+          interaction.parts.forEach((part) => criaInteracao(author, part.text));
+          console.log(interaction);
+        });
+      })
       .catch((erro) => console.error("Erro:", erro));
   }
 }
@@ -123,6 +152,14 @@ function limparFormulario() {
 
   elList = document.querySelectorAll("#formulario select");
   elList.forEach((el) => (el.selectedIndex = 0));
+
+  document.getElementById("interactions").classList.add("invisible");
+  document
+    .querySelector("section#interactions > div.form-group")
+    .replaceChildren();
+
+  setLocalStorage(keys.k01, {});
+  setLocalStorage(keys.k02, []);
 
   document.getElementById("nomeResponsavel").focus();
 }
@@ -143,12 +180,12 @@ async function consultarGemini(pergunta) {
     },
     body: JSON.stringify({
       question: pergunta,
-      history: JSON.parse(localStorage.getItem(keys.k02)),
+      history: getLocalStorage(keys.k02),
     }),
   });
 
   const dados = await resposta.json();
-  localStorage.setItem(keys.k02, JSON.stringify(dados));
+  setLocalStorage(keys.k02, dados);
 
   return dados;
 }
@@ -168,4 +205,27 @@ function formataPergunta(dados) {
   Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
 
   return result;
+}
+
+// ===========================================================================
+// -------------------------------- Orientações ------------------------------
+// ===========================================================================
+
+function enviarNovaPergunta() {}
+
+function criaInteracao(author, reponseTxt) {
+  const container = document.querySelector(
+    "section#interactions > div.form-group"
+  );
+  const divEl = document.createElement("div");
+  const h4El = document.createElement("h4");
+  const taEl = document.createElement("textarea");
+
+  h4El.textContent = author;
+  taEl.classList.add = "response";
+  taEl.textContent = reponseTxt;
+  divEl.classList.add("interaction");
+  divEl.appendChild(h4El);
+  divEl.appendChild(taEl);
+  container.appendChild(divEl);
 }

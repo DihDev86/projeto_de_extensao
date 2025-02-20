@@ -26,8 +26,8 @@
             </ul>
         </nav>
     </header>
-    <section>
-        <form id="formulario">
+    <section id="formulario">
+        <form>
             <div>
                 <h2>Formulário de Orientações<span>*</span></h2>
                 <p>Preencha as informações abaixo para receber orientações personalizadas.</p>
@@ -83,7 +83,33 @@
             </div>
         </form>
     </section>
-
+    <section id="interactions" class="invisible">
+        <h2>Orientações:</h2>
+        <div class="form-group">
+            <div class="interaction">
+                <h4>Autor:</h4>
+                <textarea class="reponse">
+                    Teste de resposta do Gemini
+                </textarea>
+            </div>
+            <div class="interaction">
+                <h4>Autor:</h4>
+                <textarea class="reponse">
+                    Teste de resposta do Gemini 2
+                </textarea>
+            </div>
+            <div class="interaction">
+                <h4>Autor:</h4>
+                <textarea class="reponse">
+                    Teste de resposta do Gemini 3
+                </textarea>
+            </div>
+        </div>
+        <div class="colums">
+            <button type="button" onclick="enviarNovaPergunta()">Perguntar</button>
+            <button type="button" class="clear" onclick="limparFormulario()">Limpar</button>
+        </div>
+    </section>
     <footer>
         <p>&copy; 2025 Caminho Azul. Todos os direitos reservados.</p>
     </footer>
