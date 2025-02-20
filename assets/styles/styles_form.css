@@ -59,7 +59,7 @@ select:placeholder {
 }
 
 #terapia {
-  width: 6rem;
+  width: 7rem;
 }
 
 .form-group > input,
@@ -77,6 +77,10 @@ select > option {
 .form-group label {
   margin-bottom: 10px;
   display: block;
+}
+
+#formulario > div:nth-child(2) {
+  align-items: flex-start;
 }
 
 .clear {

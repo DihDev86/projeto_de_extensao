@@ -117,7 +117,15 @@ async function enviarFormulario() {
   }
 }
 
-function limparFormulario() {}
+function limparFormulario() {
+  let elList = document.querySelectorAll("#formulario input, textarea");
+  elList.forEach((el) => (el.value = ""));
+
+  elList = document.querySelectorAll("#formulario select");
+  elList.forEach((el) => (el.selectedIndex = 0));
+
+  document.getElementById("nomeResponsavel").focus();
+}
 
 function validaFormulario() {
   const requiredFields = Array.from(document.querySelectorAll("[required]"));
