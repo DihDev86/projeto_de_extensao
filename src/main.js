@@ -1,3 +1,17 @@
+let keys = undefined;
+const hasStoredKeys = JSON.parse(localStorage.getItem("keys")) != undefined;
+
+if (!hasStoredKeys) {
+  localStorage.setItem(
+    "keys",
+    JSON.stringify({
+      k01: crypto.randomUUID(),
+      k02: crypto.randomUUID(),
+    })
+  );
+  window.location.reload();
+} else keys = JSON.parse(localStorage.getItem("keys"));
+
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("toggle-theme");
   const body = document.body;
@@ -34,17 +48,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const dadosFormulario = {};
 
     inputs.forEach((input) => {
-      if (input.type !== "submit") dadosFormulario[input.name] = input.value;
+      if (input.type !== "button") dadosFormulario[input.name] = input.value;
     });
-    localStorage.setItem(
-      "formularioCaminhoAzul",
-      JSON.stringify(dadosFormulario)
-    );
+    localStorage.setItem(keys.k01, JSON.stringify(dadosFormulario));
+    if (!JSON.parse(localStorage.getItem(keys.k02)))
+      localStorage.setItem(keys.k02, JSON.stringify([]));
   }
 
   // Carregar dados salvos ao iniciar a página
-  function carregarDados() {
-    let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
+  function carregarDados(key) {
+    let dadosSalvos = localStorage.getItem(key);
     if (dadosSalvos) {
       dadosSalvos = JSON.parse(dadosSalvos);
       inputs.forEach((input) => {
@@ -62,12 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (form)
     // Limpar os dados ao enviar o formulário
-    form.addEventListener("submit", () =>
-      localStorage.removeItem("formularioCaminhoAzul")
-    );
+    form.addEventListener("submit", () => localStorage.setItem(keys.k01, "{}"));
 
   // Chamar a função para carregar os dados salvos
-  carregarDados();
+  carregarDados(keys.k01);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -96,14 +107,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function enviarFormulario() {
   if (validaFormulario()) {
-    let dadosSalvos = localStorage.getItem("formularioCaminhoAzul");
-    dadosSalvos = JSON.parse(dadosSalvos);
-    console.log(dadosSalvos);
+    let savedData = localStorage.getItem(keys.k01);
+    savedData = JSON.parse(savedData);
+    const questionF = formataPergunta(savedData);
 
-    await enviarMensagemGPT("Olá, como você está?")
+    await consultarGemini(questionF)
       .then((resposta) => console.log(resposta))
       .catch((erro) => console.error("Erro:", erro));
   }
+}
+
+function limparFormulario() {
+  let elList = document.querySelectorAll("#formulario input, textarea");
+  elList.forEach((el) => (el.value = ""));
+
+  elList = document.querySelectorAll("#formulario select");
+  elList.forEach((el) => (el.selectedIndex = 0));
+
+  document.getElementById("nomeResponsavel").focus();
 }
 
 function validaFormulario() {
@@ -114,17 +135,37 @@ function validaFormulario() {
   });
 }
 
-async function enviarMensagemGPT(mensagem) {
-  debugger;
+async function consultarGemini(pergunta) {
   const resposta = await fetch("http://localhost:3000/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ message: mensagem }),
+    body: JSON.stringify({
+      question: pergunta,
+      history: JSON.parse(localStorage.getItem(keys.k02)),
+    }),
   });
 
   const dados = await resposta.json();
+  localStorage.setItem(keys.k02, JSON.stringify(dados));
 
-  return dados.content;
+  return dados;
+}
+
+function formataPergunta(dados) {
+  const DICT = {};
+
+  if (dados["terapia"] === "sim")
+    DICT["terapia"] = "mas já recebe terapia desde o início do diagnóstico";
+  else
+    DICT["terapia"] = ", entretanto ela ainda não recebe terapia para seu TEA";
+
+  const result = `Oi, me chamo ${dados.nomeResponsavel}, tudo bem?\n
+  Possuo uma criança que se chama ${dados.nomeCrianca}, atualmente com ${dados.idade} anos de idade.\n
+  Ela foi diagnosticada com autismo de ${dados.suporte} ${DICT.terapia}.\n
+  Atualmente ela está sob os cuidados de ${dados.cuidador}.\n
+  Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
+
+  return result;
 }
