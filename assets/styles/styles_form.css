@@ -7,7 +7,7 @@
 
 form {
   max-width: 800px;
-  margin: 40px auto 0;
+  margin: 0 auto;
   padding: 30px;
 }
 
@@ -79,7 +79,11 @@ select > option {
   display: block;
 }
 
-#formulario > div:nth-child(2) {
+#formulario > form > div:nth-child(1) {
+  margin-bottom: 25px;
+}
+
+#formulario > form > div:nth-child(2) {
   align-items: flex-start;
 }
 
@@ -88,4 +92,41 @@ select > option {
 }
 .clear:hover {
   background-color: #e00000;
+}
+
+#interactions {
+  padding: 30px 70px;
+}
+
+#interactions > h2 {
+  margin-bottom: 25px;
+}
+
+#interactions > div.form-group {
+  margin: 20px auto;
+  border: 1px solid var(--cinza_1);
+  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--branco_1);
+}
+
+.interaction {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.interaction > textarea{
+  width: inherit;
+}
+
+.reponse {
+  margin: 25px auto;
+  border: none;
+  border-top: 1px ridge var(--cinza_1);
+  border-left: 1px ridge var(--cinza_1);
+}
+
+.invisible{
+  display: none;
 }
