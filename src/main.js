@@ -13,11 +13,19 @@ let keys = undefined;
 const hasStoredKeys = getLocalStorage("keys") != undefined;
 
 if (!hasStoredKeys) {
+  const createKey = () => {
+    let key = crypto.randomUUID();
+    key = key.split("-").join("").slice(7, 14);
+
+    return key;
+  };
+
   setLocalStorage("keys", {
-    k01: crypto.randomUUID(),
-    k02: crypto.randomUUID(),
-    k03: crypto.randomUUID(),
+    k01: createKey(),
+    k02: createKey(),
+    k03: createKey(),
   });
+
   window.location.reload();
 } else keys = getLocalStorage("keys");
 
@@ -97,25 +105,20 @@ document.addEventListener("DOMContentLoaded", function () {
     setLocalStorage(keys.k01, formData);
   }
 
-  // Carregar dados salvos ao iniciar a página
-  function recarregaDados(key) {
-    const dadosSalvos = getLocalStorage(key);
-
-    if (dadosSalvos) {
-      formElList.forEach((input) => {
-        if (dadosSalvos[input.name]) {
-          input.value = dadosSalvos[input.name];
-        }
-      });
-    }
-  }
-
   // Monitorar mudanças nos inputs e salvar automaticamente
   formElList.forEach((el) => {
     if (el.type !== "submit") el.addEventListener("input", salvarDados);
   });
 
-  recarregaDados(keys.k01);
+  const dadosSalvos = getLocalStorage(keys.k01);
+
+  if (dadosSalvos) {
+    formElList.forEach((input) => {
+      if (dadosSalvos[input.name]) {
+        input.value = dadosSalvos[input.name];
+      }
+    });
+  }
 });
 
 function validaFormulario() {
@@ -160,6 +163,10 @@ function formataPergunta(dados) {
 }
 
 async function consultarGemini(pergunta) {
+  if (!getLocalStorage(keys.k02)) {
+    setLocalStorage(keys.k02, []);
+  }
+  
   const resposta = await fetch("http://localhost:3000/ask", {
     method: "POST",
     headers: {
@@ -170,6 +177,8 @@ async function consultarGemini(pergunta) {
       history: getLocalStorage(keys.k02),
     }),
   });
+
+  debugger;
 
   const dados = await resposta.json();
   setLocalStorage(keys.k02, dados);
@@ -182,7 +191,6 @@ async function enviarFormulario() {
     let savedData = getLocalStorage(keys.k01);
     const questionF = formataPergunta(savedData);
 
-    debugger;
     await consultarGemini(questionF)
       .then((resposta) => {
         console.log(resposta);
