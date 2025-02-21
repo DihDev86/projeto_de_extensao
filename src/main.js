@@ -162,7 +162,7 @@ function formataPergunta(dados) {
   return result;
 }
 
-async function consultarGemini(pergunta) {
+async function consultarIA(pergunta) {
   if (!getLocalStorage(keys.k02)) {
     setLocalStorage(keys.k02, []);
   }
@@ -189,7 +189,7 @@ async function enviarFormulario() {
     let savedData = getLocalStorage(keys.k01);
     const questionF = formataPergunta(savedData);
 
-    await consultarGemini(questionF)
+    await consultarIA(questionF)
       .then((resposta) => {
         //console.log(resposta);
         document.getElementById("interactions").classList.remove("invisible");
@@ -199,6 +199,7 @@ async function enviarFormulario() {
 
           interaction.parts.forEach((part) => criaInteracao(author, part.text));
           // console.log(interaction);
+          location.reload();
         });
       })
       .catch((erro) => console.error("Erro:", erro));
@@ -231,8 +232,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (chatHistList.length > 0) {
     document.getElementById("interactions").classList.remove("invisible");
     chatHistList.forEach((interaction) => {
-      const author =
-        interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):";
+      const author = {
+        role: interaction.role,
+        text:
+          interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):",
+      };
 
       interaction.parts.forEach((part) => criaInteracao(author, part.text));
       //console.log(interaction);
@@ -246,13 +250,17 @@ function criaInteracao(author, reponseTxt) {
   const ulEl = document.querySelector("#interactions ul");
   const liEl = document.createElement("li");
   const h4El = document.createElement("h4");
-  const taEl = document.createElement("textarea");
+  const divEl1 = document.createElement("div");
+  const divEl2 = document.createElement("div");
 
-  h4El.textContent = author;
-  taEl.classList.add("response");
-  taEl.textContent = reponseTxt;
+  h4El.classList.add(author.role);
+  h4El.textContent = author.text;
+  divEl1.classList.add(author.role);
+  divEl2.classList.add("response");
+  divEl2.innerHTML = reponseTxt;
   liEl.classList.add("interaction");
+  divEl1.appendChild(divEl2);
   liEl.appendChild(h4El);
-  liEl.appendChild(taEl);
+  liEl.appendChild(divEl1);
   ulEl.appendChild(liEl);
 }

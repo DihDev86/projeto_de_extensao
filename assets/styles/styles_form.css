@@ -92,7 +92,7 @@ select > option {
   background-color: red;
 }
 .clear:hover {
-  background-color: #e00000;
+  background-color: var(--vermelho_escuro);
 }
 
 #interactions > h2 {
@@ -113,17 +113,86 @@ select > option {
   width: 100%;
 }
 
-.interaction > textarea {
-  width: inherit;
-}
-
-.response {
-  margin: 25px auto;
-  border: none;
-  border-top: 1px ridge var(--cinza_1);
-  border-left: 1px ridge var(--cinza_1);
-}
-
 .invisible {
   display: none;
+}
+
+/* Balões do chat: */
+.response > p,
+.response li {
+  margin: 0.5rem 0;
+  line-height: 0.9;
+  font-size: 1.1rem;
+}
+
+.user,
+.model {
+  margin: 1rem 0;
+}
+
+.user {
+  margin-left: 2rem;
+}
+
+.model {
+  text-align: right;
+  margin-right: 2rem;
+}
+
+h4.user {
+  color: var(--azul_principal);
+}
+
+h4.model {
+  color: var(--vermelho_escuro);
+}
+
+.interaction > div {
+  position: relative;
+  padding: 1.125em 1.5em;
+  font-size: 1.25em;
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.5rem var(--cinza_1),
+    0 0.0625rem 0.125rem var(--cinza_2);
+}
+
+.interaction > div.user {
+  background-color: var(--azul_chat);
+}
+
+.interaction > div.user::before {
+  left: 1.5em;
+  border-bottom-color: var(--azul_chat);
+}
+
+.interaction > div.model {
+  background-color: var(--vermelho_chat);
+}
+
+.interaction > div.model::before {
+  right: 1.5em;
+  border-bottom-color: var(--vermelho_chat);
+}
+
+.interaction > div::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 100%;
+
+  border: 0.75rem solid transparent;
+  border-top: none;
+  border-bottom-color: var(--branco_1);
+  filter: drop-shadow(0 -0.0625rem 0.0625rem var(--cinza_2));
+}
+
+.response strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+div.response ul > li {
+  list-style-type: initial;
 }
