@@ -1,7 +1,7 @@
 .colums {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -54,18 +54,18 @@ select:placeholder {
   margin-bottom: 25px;
 }
 
-#idade {
-  width: 7.7rem;
+#nomeResponsavel {
+  width: 100%;
 }
 
-#terapia {
-  width: 7rem;
+#idade {
+  width: 4rem;
 }
 
 .form-group > input,
 .form-group > select,
 .form-group > textarea {
-  width: 100%;
+  width: fit-content;
   padding: 12px;
 }
 
@@ -116,7 +116,7 @@ select > option {
   width: 100%;
 }
 
-.interaction > textarea{
+.interaction > textarea {
   width: inherit;
 }
 
@@ -127,6 +127,6 @@ select > option {
   border-left: 1px ridge var(--cinza_1);
 }
 
-.invisible{
+.invisible {
   display: none;
 }

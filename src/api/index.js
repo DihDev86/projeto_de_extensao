@@ -1,3 +1,4 @@
+require("dotenv").config({ path: process.env.DOTENV_CONFIG_PATH });
 const express = require("express");
 const cors = require("cors");
 const gemini_ai = require("./gemini_ai");
@@ -6,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/api/chat", async (req, res) => {
+app.post("/ask", async (req, res) => {
   try {
     const { question, history } = req.body;
 

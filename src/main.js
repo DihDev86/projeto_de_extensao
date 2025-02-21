@@ -82,10 +82,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // -------------------- Formulário de Orientações ----------------------------
 // ===========================================================================
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-  const formElList = document.querySelectorAll(
-    "#formulario input, #formulario select"
-  );
+  const form = document.getElementById("formulario");
+  const formElList = form.querySelectorAll("input,  select, textarea");
+
+  form.addEventListener("submit", () => setLocalStorage(keys.k01, {}));
 
   function salvarDados() {
     const formData = {};
@@ -95,9 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     setLocalStorage(keys.k01, formData);
-    if (!getLocalStorage(keys.k02)) {
-      setLocalStorage(keys.k02, []);
-    }
   }
 
   // Carregar dados salvos ao iniciar a página
@@ -114,22 +111,78 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Monitorar mudanças nos inputs e salvar automaticamente
-  formElList.forEach((input) => {
-    if (input.type !== "submit") input.addEventListener("input", salvarDados);
+  formElList.forEach((el) => {
+    if (el.type !== "submit") el.addEventListener("input", salvarDados);
   });
-
-  if (form)
-    form.addEventListener("submit", () => setLocalStorage(keys.k01, {}));
 
   recarregaDados(keys.k01);
 });
 
+function validaFormulario() {
+  const requiredFields = Array.from(document.querySelectorAll("[required]"));
+  const isValid = !requiredFields.some((input) => {
+    if (input.value.length == 0) return true;
+  });
+
+  if (isValid)
+    document.getElementById("nomeResponsavel").dispatchEvent(
+      new InputEvent("input", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+  return isValid;
+}
+
+function formataPergunta(dados) {
+  const DICT = {};
+  const TERAPIA = "terapia";
+  const RMK = "observacoes";
+
+  if (dados[TERAPIA] === "sim")
+    DICT[TERAPIA] = "Mas ela recebe terapia desde o início do diagnóstico";
+  else
+    DICT[TERAPIA] = "Infelizmente, ela ainda não recebe terapia para seu TEA";
+
+  if (dados[RMK])
+    DICT[
+      RMK
+    ] = `\nA critério de informação extra eu acrescento: ${dados[RMK]}\n`;
+  else DICT[RMK] = "";
+
+  const result = `Oi, me chamo ${dados.nomeResponsavel}, tudo bem?\n
+  Possuo uma criança de ${dados.idade} anos de idade diagnosticada com autismo de ${dados.nivelSuporte} e tipo ${dados.tipoSuporte}.\n
+  ${DICT[TERAPIA]}.${DICT[RMK]}
+  Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
+
+  return result;
+}
+
+async function consultarGemini(pergunta) {
+  const resposta = await fetch("http://localhost:3000/ask", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      question: pergunta,
+      history: getLocalStorage(keys.k02),
+    }),
+  });
+
+  const dados = await resposta.json();
+  setLocalStorage(keys.k02, dados);
+
+  return dados;
+}
+
 async function enviarFormulario() {
   if (validaFormulario()) {
     let savedData = getLocalStorage(keys.k01);
-    //savedData = JSON.parse(savedData);
     const questionF = formataPergunta(savedData);
 
+    debugger;
     await consultarGemini(questionF)
       .then((resposta) => {
         console.log(resposta);
@@ -162,49 +215,6 @@ function limparFormulario() {
   setLocalStorage(keys.k02, []);
 
   document.getElementById("nomeResponsavel").focus();
-}
-
-function validaFormulario() {
-  const requiredFields = Array.from(document.querySelectorAll("[required]"));
-
-  return !requiredFields.some((input) => {
-    if (input.value.length == 0) return true;
-  });
-}
-
-async function consultarGemini(pergunta) {
-  const resposta = await fetch("http://localhost:3000/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      question: pergunta,
-      history: getLocalStorage(keys.k02),
-    }),
-  });
-
-  const dados = await resposta.json();
-  setLocalStorage(keys.k02, dados);
-
-  return dados;
-}
-
-function formataPergunta(dados) {
-  const DICT = {};
-
-  if (dados["terapia"] === "sim")
-    DICT["terapia"] = "mas já recebe terapia desde o início do diagnóstico";
-  else
-    DICT["terapia"] = ", entretanto ela ainda não recebe terapia para seu TEA";
-
-  const result = `Oi, me chamo ${dados.nomeResponsavel}, tudo bem?\n
-  Possuo uma criança que se chama ${dados.nomeCrianca}, atualmente com ${dados.idade} anos de idade.\n
-  Ela foi diagnosticada com autismo de ${dados.suporte} ${DICT.terapia}.\n
-  Atualmente ela está sob os cuidados de ${dados.cuidador}.\n
-  Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
-
-  return result;
 }
 
 // ===========================================================================
