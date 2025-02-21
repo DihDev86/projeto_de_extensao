@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===========================================================================
 // ----------------------------- Acessibilidade ------------------------------
 // ===========================================================================
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const botoesLeitura = document.querySelectorAll(".btn-ler");
 
   botoesLeitura.forEach((botao) => {
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===========================================================================
 // -------------------- Formulário de Orientações ----------------------------
 // ===========================================================================
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formulario");
   const formElList = form.querySelectorAll("input,  select, textarea");
 
@@ -166,7 +166,7 @@ async function consultarGemini(pergunta) {
   if (!getLocalStorage(keys.k02)) {
     setLocalStorage(keys.k02, []);
   }
-  
+
   const resposta = await fetch("http://localhost:3000/ask", {
     method: "POST",
     headers: {
@@ -177,8 +177,6 @@ async function consultarGemini(pergunta) {
       history: getLocalStorage(keys.k02),
     }),
   });
-
-  debugger;
 
   const dados = await resposta.json();
   setLocalStorage(keys.k02, dados);
@@ -193,14 +191,14 @@ async function enviarFormulario() {
 
     await consultarGemini(questionF)
       .then((resposta) => {
-        console.log(resposta);
+        //console.log(resposta);
         document.getElementById("interactions").classList.remove("invisible");
         resposta.forEach((interaction) => {
           const author =
             interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):";
 
           interaction.parts.forEach((part) => criaInteracao(author, part.text));
-          console.log(interaction);
+          // console.log(interaction);
         });
       })
       .catch((erro) => console.error("Erro:", erro));
@@ -215,9 +213,7 @@ function limparFormulario() {
   elList.forEach((el) => (el.selectedIndex = 0));
 
   document.getElementById("interactions").classList.add("invisible");
-  document
-    .querySelector("section#interactions > div.form-group")
-    .replaceChildren();
+  document.querySelector("#interactions ul").replaceChildren();
 
   setLocalStorage(keys.k01, {});
   setLocalStorage(keys.k02, []);
@@ -229,21 +225,34 @@ function limparFormulario() {
 // -------------------------------- Orientações ------------------------------
 // ===========================================================================
 
+document.addEventListener("DOMContentLoaded", () => {
+  const chatHistList = getLocalStorage(keys.k02);
+
+  if (chatHistList.length > 0) {
+    document.getElementById("interactions").classList.remove("invisible");
+    chatHistList.forEach((interaction) => {
+      const author =
+        interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):";
+
+      interaction.parts.forEach((part) => criaInteracao(author, part.text));
+      //console.log(interaction);
+    });
+  }
+});
+
 function enviarNovaPergunta() {}
 
 function criaInteracao(author, reponseTxt) {
-  const container = document.querySelector(
-    "section#interactions > div.form-group"
-  );
-  const divEl = document.createElement("div");
+  const ulEl = document.querySelector("#interactions ul");
+  const liEl = document.createElement("li");
   const h4El = document.createElement("h4");
   const taEl = document.createElement("textarea");
 
   h4El.textContent = author;
-  taEl.classList.add = "response";
+  taEl.classList.add("response");
   taEl.textContent = reponseTxt;
-  divEl.classList.add("interaction");
-  divEl.appendChild(h4El);
-  divEl.appendChild(taEl);
-  container.appendChild(divEl);
+  liEl.classList.add("interaction");
+  liEl.appendChild(h4El);
+  liEl.appendChild(taEl);
+  ulEl.appendChild(liEl);
 }

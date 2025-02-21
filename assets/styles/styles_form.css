@@ -5,8 +5,9 @@
   align-items: center;
 }
 
-form {
-  max-width: 800px;
+form,
+section > div {
+  max-width: 96%;
   margin: 0 auto;
   padding: 30px;
 }
@@ -94,10 +95,6 @@ select > option {
   background-color: #e00000;
 }
 
-#interactions {
-  padding: 30px 70px;
-}
-
 #interactions > h2 {
   margin-bottom: 25px;
 }
@@ -120,7 +117,7 @@ select > option {
   width: inherit;
 }
 
-.reponse {
+.response {
   margin: 25px auto;
   border: none;
   border-top: 1px ridge var(--cinza_1);
