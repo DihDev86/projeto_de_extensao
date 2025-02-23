@@ -33,28 +33,32 @@ if (!hasStoredKeys) {
 // ---------------------------- Escolha de Tema ------------------------------
 // ===========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  const themeToggle = document.getElementById("toggle-theme");
+  const cbEl = document.getElementById("btn-toggle")
   const body = document.body;
 
-  if (themeToggle) {
+  if (cbEl) {
     // Verifica se o usuário já escolheu um tema antes:
     if (getLocalStorage(keys.k03) === false) {
       body.classList.add("dark-mode");
-      themeToggle.innerHTML = "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro";
+     /*  themeToggle.innerHTML = "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro"; */
     }
 
-    themeToggle.addEventListener("click", () => {
+    cbEl.addEventListener("click", (e) => {
       body.classList.toggle("dark-mode");
 
+      console.log("OK");
+      
+      
       if (body.classList.contains("dark-mode")) {
         setLocalStorage(keys.k03, false);
-        themeToggle.innerHTML =
-          "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro";
+        /* themeToggle.innerHTML =
+          "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro"; */
       } else {
         setLocalStorage(keys.k03, true);
-        themeToggle.innerHTML =
-          "<i class='fa-solid fa-moon'></i>&nbsp;Modo Escuro";
+       /*  themeToggle.innerHTML =
+          "<i class='fa-solid fa-moon'></i>&nbsp;Modo Escuro"; */
       }
+    
     });
   }
 });
@@ -229,7 +233,7 @@ function limparFormulario() {
 document.addEventListener("DOMContentLoaded", () => {
   const chatHistList = getLocalStorage(keys.k02);
 
-  if (chatHistList.length > 0) {
+  if (chatHistList?.length > 0) {
     document.getElementById("interactions").classList.remove("invisible");
     chatHistList.forEach((interaction) => {
       const author = {

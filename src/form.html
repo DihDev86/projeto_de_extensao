@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/styles/reset.css">
     <link rel="stylesheet" href="../assets/styles/style.css">
     <link rel="stylesheet" href="../assets/styles/styles_form.css">
+    <link rel="stylesheet" href="../assets/styles/togle_btn.css">
     <script src="https://kit.fontawesome.com/23638b2973.js" crossorigin="anonymous" defer></script>
 </head>
 
@@ -15,7 +16,19 @@
     <header>
         <img src="../assets/img/logo.png" alt="Logo Inclusão Escolar" class="header-logo">
         <h1>Caminho Azul</h1>
-        <button id="toggle-theme"><i class="fa-solid fa-moon"></i> Modo Escuro</button>
+        <div id="toggle-theme">
+            <i class="fa-solid fa-moon"></i>
+            <div class="toggle">
+                <input type="checkbox" id="btn-toggle">
+                <label for="btn-toggle">
+                    <span class="track">
+                        <span class="txt"></span>
+                    </span>
+                    <span class="thumb"></span>
+                </label>
+            </div>
+            <i class='fa-solid fa-sun'></i>
+        </div>
         <nav>
             <ul>
                 <li><a href="./index.html">

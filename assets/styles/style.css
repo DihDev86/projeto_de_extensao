@@ -10,6 +10,8 @@
   --vermelho_escuro: #e00000;
   --azul_chat: #dcf3ff;
   --vermelho_chat: #ffe1e1;
+  --togle_size: .85rem;
+  --togle_trasition: all 0.25s ease 0s;
 }
 
 body {
@@ -17,11 +19,11 @@ body {
   color: var(--cinza_1);
   transition: background 0.3s, color 0.3s;
 }
-h2{
-  font-size: 1.5em
+h2 {
+  font-size: 1.5em;
 }
-h3{
-  font-size: 1.17em
+h3 {
+  font-size: 1.17em;
 }
 
 hr {
@@ -45,42 +47,16 @@ a > button {
   min-width: 11rem;
 }
 
-/* Botão no modo escuro */
-.dark-mode #toggle-theme {
-  background-color: var(--branco_1);
-  color: var(--bg-color);
-}
-
-.dark-mode #toggle-theme i {
-  color: var(--bg-color);
-}
-
-.dark-mode #toggle-theme:hover {
-  background-color: #ddd;
-}
-
 #toggle-theme {
-  width: 150px;
-  height: 40px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--azul_principal);
-  color: var(--branco_2);
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: background 0.3s;
   position: absolute;
+  justify-content: space-between;
+  width: 6vw;
   top: 10px;
   right: 10px;
+  align-items: center;
 }
 
-#toggle-theme:hover {
-  background-color: var(--azul-secundario);
-}
 
 /* Ajustando seções e formulários para melhor visibilidade */
 .dark-mode section {
