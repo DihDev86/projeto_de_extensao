@@ -150,7 +150,8 @@ function formataPergunta(dados) {
   else DICT[RMK] = "";
 
   const result = `Oi, me chamo ${dados.nomeResponsavel}, tudo bem?\n
-  Possuo uma criança de ${dados.idade} anos de idade diagnosticada com autismo de ${dados.nivelSuporte} e tipo ${dados.tipoSuporte}.\n
+  Possuo uma criança, chamada ${dados.nomeCrianca}, de ${dados.idade} anos de idade 
+  diagnosticada com autismo de ${dados.nivelSuporte} e tipo ${dados.tipoSuporte}.\n
   ${DICT[TERAPIA]}.${DICT[RMK]}
   Preciso de sugestões de como lhe dar com toda essa situação, podes me ajudar com isso, Gemini?`;
 

@@ -85,7 +85,8 @@ select > option {
 }
 
 #formulario > form > div:nth-child(2) {
-  align-items: flex-start;
+  display: flex;
+  justify-content: space-around;
 }
 
 .clear {

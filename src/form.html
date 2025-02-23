@@ -44,13 +44,16 @@
             <div>
                 <h2>Formulário de Orientações<span>*</span></h2>
                 <p>Preencha as informações abaixo para receber orientações personalizadas.</p>
-                <hr>
-                <p class="rmk"><span>*</span> - As orientações resultantes desse formulário, são automatizadas por
-                    Inteligência Artificial.</p>
             </div>
-            <div class="form-group">
-                <label for="nomeResponsavel">Nome do responsável:</label>
-                <input type="text" id="nomeResponsavel" name="nomeResponsavel" value="TEste" value="TEste" required>
+            <div>
+                <div class="form-group">
+                    <label for="nomeResponsavel">Nome do responsável:</label>
+                    <input type="text" id="nomeResponsavel" name="nomeResponsavel" value="TEste" required>
+                </div>
+                <div class="form-group">
+                    <label for="nomeCrianca">Nome da criança:<span>**</span></label>
+                    <input type="text" id="nomeCrianca" name="nomeCrianca" value="Criança Teste">
+                </div>
             </div>
             <div class="form-group">
                 <div class="colums">
@@ -94,6 +97,10 @@
                 <button type="button" onclick="enviarFormulario()">Enviar</button>
                 <button type="button" class="clear" onclick="limparFormulario()">Limpar</button>
             </div>
+            <hr>
+            <p class="rmk"><span>*</span>&nbsp;&nbsp;&nbsp;- As orientações resultantes desse formulário, são automatizadas por
+                Inteligência Artificial.</p>
+            <p class="rmk"><span>**</span>&nbsp;- Preenchimento facultativo.</p>
         </form>
     </section>
     <section id="interactions" class="invisible">
