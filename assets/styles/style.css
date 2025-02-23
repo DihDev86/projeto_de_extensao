@@ -9,7 +9,9 @@
   --azul-secundario: #0096c7;
   --vermelho_escuro: #e00000;
   --azul_chat: #dcf3ff;
+  --azul_chat_dark:#00326a ;
   --vermelho_chat: #ffe1e1;
+  --vermelho_chat_dark: #6a0000;
   --togle_size: .85rem;
   --togle_trasition: all 0.25s ease 0s;
 }
@@ -65,7 +67,8 @@ a > button {
 }
 
 .dark-mode input,
-.dark-mode select {
+.dark-mode select,
+.dark-mode textarea {
   background-color: #444444;
   color: var(--branco_2);
   border: 1px solid #777777;

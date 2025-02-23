@@ -33,32 +33,23 @@ if (!hasStoredKeys) {
 // ---------------------------- Escolha de Tema ------------------------------
 // ===========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  const cbEl = document.getElementById("btn-toggle")
+  const cbEl = document.getElementById("btn-toggle");
   const body = document.body;
 
   if (cbEl) {
     // Verifica se o usuário já escolheu um tema antes:
     if (getLocalStorage(keys.k03) === false) {
       body.classList.add("dark-mode");
-     /*  themeToggle.innerHTML = "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro"; */
     }
 
     cbEl.addEventListener("click", (e) => {
       body.classList.toggle("dark-mode");
 
       console.log("OK");
-      
-      
-      if (body.classList.contains("dark-mode")) {
+
+      if (body.classList.contains("dark-mode"))
         setLocalStorage(keys.k03, false);
-        /* themeToggle.innerHTML =
-          "<i class='fa-solid fa-sun'></i>&nbsp;Modo Claro"; */
-      } else {
-        setLocalStorage(keys.k03, true);
-       /*  themeToggle.innerHTML =
-          "<i class='fa-solid fa-moon'></i>&nbsp;Modo Escuro"; */
-      }
-    
+      else setLocalStorage(keys.k03, true);
     });
   }
 });
