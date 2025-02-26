@@ -13,6 +13,9 @@
 </head>
 
 <body>
+    <div id="loading-overlay">
+    </div>
+
     <header>
         <img src="../assets/img/logo.png" alt="Logo Inclusão Escolar" class="header-logo">
         <h1>Caminho Azul</h1>
@@ -98,7 +101,8 @@
                 <button type="button" class="clear" onclick="limparFormulario()">Limpar</button>
             </div>
             <hr>
-            <p class="rmk"><span>*</span>&nbsp;&nbsp;&nbsp;- As orientações resultantes desse formulário, são automatizadas por
+            <p class="rmk"><span>*</span>&nbsp;&nbsp;&nbsp;- As orientações resultantes desse formulário, são
+                automatizadas por
                 Inteligência Artificial.</p>
             <p class="rmk"><span>**</span>&nbsp;- Preenchimento facultativo.</p>
         </form>
@@ -108,6 +112,10 @@
             <h2>Orientações:</h2>
             <ul class="form-group">
             </ul>
+            <div class="form-group">
+            <label for="nomeResponsavel">Quer falar mais?</label>
+            <textarea id="chatInput" name="chatInput"></textarea>
+            </div>
             <div class="colums">
                 <button type="button" onclick="enviarNovaPergunta()">Perguntar</button>
                 <button type="button" class="clear" onclick="limparFormulario()">Apagar</button>

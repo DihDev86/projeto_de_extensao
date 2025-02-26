@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       else setLocalStorage(keys.k03, true);
     });
   }
+  criaLoading();
 });
 
 // ===========================================================================
@@ -185,20 +186,23 @@ async function enviarFormulario() {
     let savedData = getLocalStorage(keys.k01);
     const questionF = formataPergunta(savedData);
 
+    setLoading(true);
+
     await consultarIA(questionF)
       .then((resposta) => {
         //console.log(resposta);
         document.getElementById("interactions").classList.remove("invisible");
         resposta.forEach((interaction) => {
-          const author =
-            interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):";
-
-          interaction.parts.forEach((part) => criaInteracao(author, part.text));
+          interaction.parts.forEach((part) =>
+            criaInteracao(interaction, part.text)
+          );
           // console.log(interaction);
           location.reload();
         });
       })
       .catch((erro) => console.error("Erro:", erro));
+
+    setLoading(false);
   }
 }
 
@@ -228,26 +232,43 @@ document.addEventListener("DOMContentLoaded", () => {
   if (chatHistList?.length > 0) {
     document.getElementById("interactions").classList.remove("invisible");
     chatHistList.forEach((interaction) => {
-      const author = {
-        role: interaction.role,
-        text:
-          interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):",
-      };
-
-      interaction.parts.forEach((part) => criaInteracao(author, part.text));
+      interaction.parts.forEach((part) =>
+        criaInteracao(interaction, part.text)
+      );
       //console.log(interaction);
     });
   }
 });
 
-function enviarNovaPergunta() {}
+async function enviarNovaPergunta() {
+  const novaPergunta = document.getElementById("chatInput").value;
 
-function criaInteracao(author, reponseTxt) {
+  setLoading(true);
+
+  await consultarIA(novaPergunta)
+    .then((resposta) => {
+      resposta.forEach((interaction) => {
+        interaction.parts.forEach((part) =>
+          criaInteracao(interaction, part.text)
+        );
+        location.reload();
+      });
+    })
+    .catch((erro) => console.error("Erro:", erro));
+
+  setLoading(false);
+}
+
+function criaInteracao(interaction, reponseTxt) {
   const ulEl = document.querySelector("#interactions ul");
   const liEl = document.createElement("li");
   const h4El = document.createElement("h4");
   const divEl1 = document.createElement("div");
   const divEl2 = document.createElement("div");
+  const author = {
+    role: interaction.role,
+    text: interaction.role === "user" ? "Você:" : "Consultor(a) autônomo(a):",
+  };
 
   h4El.classList.add(author.role);
   h4El.textContent = author.text;
@@ -259,4 +280,38 @@ function criaInteracao(author, reponseTxt) {
   liEl.appendChild(h4El);
   liEl.appendChild(divEl1);
   ulEl.appendChild(liEl);
+}
+
+// ===========================================================================
+// -------------------------------- Loading ----------------------------------
+// ===========================================================================
+
+const LOADING_ID = "loading-overlay";
+
+function criaLoading() {
+  const overlayEl = document.getElementById(LOADING_ID);
+  setLoading(false);
+
+  const wrapperEl = document.createElement("div");
+  wrapperEl.classList.add("loagind-wrapper");
+
+  for (let i = 0; i < 8; i++) {
+    const circleEl = document.createElement("span");
+    circleEl.classList.add("circle");
+    circleEl.classList.add(`circle-${i + 1}`);
+    wrapperEl.appendChild(circleEl);
+  }
+
+  const spanEl = document.createElement("span");
+  spanEl.innerText = "Carregando...";
+  wrapperEl.appendChild(spanEl);
+  overlayEl.appendChild(wrapperEl);
+}
+
+function setLoading(isLoading) {
+  const wrapper = document.getElementById(LOADING_ID);
+  const CLASS = "invisible";
+
+  if (isLoading) wrapper.classList.remove(CLASS);
+  else wrapper.classList.add(CLASS);
 }
