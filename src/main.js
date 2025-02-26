@@ -26,7 +26,7 @@ if (!hasStoredKeys) {
     k03: createKey(),
   });
 
-  window.location.reload();
+  //window.location.reload();
 } else keys = getLocalStorage("keys");
 
 // ===========================================================================
@@ -192,12 +192,13 @@ async function enviarFormulario() {
       .then((resposta) => {
         //console.log(resposta);
         document.getElementById("interactions").classList.remove("invisible");
-        resposta.forEach((interaction) => {
+        resposta.forEach((interaction, i) => {
+          const isToType = i === resposta.length - 1;
+
           interaction.parts.forEach((part) =>
-            criaInteracao(interaction, part.text)
+            criaInteracao(interaction, part.text, isToType)
           );
           // console.log(interaction);
-          location.reload();
         });
       })
       .catch((erro) => console.error("Erro:", erro));
@@ -223,7 +224,7 @@ function limparFormulario() {
 }
 
 // ===========================================================================
-// -------------------------------- Orientações ------------------------------
+// -------------------------------- Conversa ------------------------------
 // ===========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -233,25 +234,27 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("interactions").classList.remove("invisible");
     chatHistList.forEach((interaction) => {
       interaction.parts.forEach((part) =>
-        criaInteracao(interaction, part.text)
+        criaInteracao(interaction, part.text, false)
       );
-      //console.log(interaction);
     });
   }
 });
 
 async function enviarNovaPergunta() {
   const novaPergunta = document.getElementById("chatInput").value;
+  document.getElementById("chatInput").value = "";
 
   setLoading(true);
+  document.querySelector("#interactions ul").replaceChildren();
 
   await consultarIA(novaPergunta)
     .then((resposta) => {
-      resposta.forEach((interaction) => {
+      resposta.forEach((interaction, i) => {
+        const isToType = i === resposta.length - 1;
+
         interaction.parts.forEach((part) =>
-          criaInteracao(interaction, part.text)
+          criaInteracao(interaction, part.text, isToType)
         );
-        location.reload();
       });
     })
     .catch((erro) => console.error("Erro:", erro));
@@ -259,7 +262,7 @@ async function enviarNovaPergunta() {
   setLoading(false);
 }
 
-function criaInteracao(interaction, reponseTxt) {
+function criaInteracao(interaction, reponseTxt, isToType) {
   const ulEl = document.querySelector("#interactions ul");
   const liEl = document.createElement("li");
   const h4El = document.createElement("h4");
@@ -274,12 +277,45 @@ function criaInteracao(interaction, reponseTxt) {
   h4El.textContent = author.text;
   divEl1.classList.add(author.role);
   divEl2.classList.add("response");
-  divEl2.innerHTML = reponseTxt;
+
+  if (isToType) {
+    digitar(divEl2, reponseTxt);
+  } else {
+    divEl2.innerHTML = reponseTxt;
+  }
+
   liEl.classList.add("interaction");
   divEl1.appendChild(divEl2);
   liEl.appendChild(h4El);
   liEl.appendChild(divEl1);
   ulEl.appendChild(liEl);
+}
+
+function digitar(elemento, texto) {
+  let i = 0;
+  let timeout = undefined;
+
+  if (texto.length < 100) {
+    timeout = 150;
+  } else if (texto.length > 500) {
+    timeout = 15;
+  } else {
+    timeout = 100;
+  }
+
+  function escrever() {
+    if (i < texto.length) {
+      const char = texto[i];
+
+      elemento.innerHTML += char;
+      i++;
+      setTimeout(escrever, timeout);
+    } else {
+      elemento.innerHTML = texto;
+    }
+  }
+
+  escrever();
 }
 
 // ===========================================================================
