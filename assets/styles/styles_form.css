@@ -114,7 +114,8 @@ select > option {
   width: 100%;
 }
 
-.invisible {
+.invisible,
+#loading-overlay.invisible {
   display: none;
 }
 

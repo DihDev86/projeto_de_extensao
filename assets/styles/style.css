@@ -9,10 +9,10 @@
   --azul-secundario: #0096c7;
   --vermelho_escuro: #e00000;
   --azul_chat: #dcf3ff;
-  --azul_chat_dark:#00326a ;
+  --azul_chat_dark: #00326a;
   --vermelho_chat: #ffe1e1;
   --vermelho_chat_dark: #6a0000;
-  --togle_size: .85rem;
+  --togle_size: 0.85rem;
   --togle_trasition: all 0.25s ease 0s;
 }
 
@@ -33,13 +33,11 @@ hr {
   margin-bottom: 0.3rem;
 }
 
-/* Estilos para o modo escuro */
 .dark-mode {
   background-color: var(--bg-color);
   color: var(--branco_1);
 }
 
-/* Ajuste para os links no modo escuro */
 .dark-mode a {
   color: var(--cinza_1);
 }
@@ -59,8 +57,6 @@ a > button {
   align-items: center;
 }
 
-
-/* Ajustando seções e formulários para melhor visibilidade */
 .dark-mode section {
   background: var(--cinza_1);
   color: var(--branco_1);
@@ -78,7 +74,6 @@ a > button {
   color: var(--cinza_2);
 }
 
-/* Cabeçalho */
 header {
   background: var(--azul_principal);
   color: var(--branco_2);
@@ -102,7 +97,6 @@ nav ul li {
   margin: 0 15px;
 }
 
-/* Seções */
 section {
   max-width: 900px;
   margin: 20px auto;
@@ -112,7 +106,6 @@ section {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Botão */
 button {
   min-height: 2rem;
   min-width: 6.8rem;
@@ -253,7 +246,6 @@ input[type="submit"] {
   color: yellow;
 }
 
-/* Rodapé */
 footer {
   text-align: center;
   padding: 15px;
@@ -262,8 +254,133 @@ footer {
   margin-top: 20px;
 }
 
-/* Rodapé no modo escuro */
 .dark-mode footer {
   background: #111111;
   color: var(--cinza_2);
+}
+
+/***************************************
+************** Loading: ****************
+****************************************/
+.loagind-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 117px;
+  height: 85px;
+  align-items: center;
+}
+
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(34, 34, 34, 0.8);
+  z-index: 99;
+}
+
+.loagind-wrapper > span {
+  color: var(--branco_2);
+}
+
+.dark-mode .loagind-wrapper > span {
+  color: var(--cinza_2);
+}
+
+.dark-mode .circle {
+  animation: loading_dark 1.6s cubic-bezier(0.8, 0.5, 0.2, 1.4) infinite;
+  transform-origin: top center;
+}
+
+.dark-mode .circle-1 {
+  animation-delay: 0.1s;
+}
+.dark-mode .circle-2 {
+  animation-delay: 0.2s;
+}
+.dark-mode .circle-3 {
+  animation-delay: 0.3s;
+}
+.dark-mode .circle-4 {
+  animation-delay: 0.4s;
+}
+.dark-mode .circle-5 {
+  animation-delay: 0.5s;
+}
+.dark-mode .circle-6 {
+  animation-delay: 0.6s;
+}
+.dark-mode .circle-7 {
+  animation-delay: 0.7s;
+}
+.dark-mode .circle-8 {
+  animation-delay: 0.8s;
+}
+
+.circle {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  animation: loading 1.6s cubic-bezier(0.8, 0.5, 0.2, 1.4) infinite;
+  transform-origin: bottom center;
+}
+
+.circle-1 {
+  animation-delay: 0.1s;
+}
+.circle-2 {
+  animation-delay: 0.2s;
+}
+.circle-3 {
+  animation-delay: 0.3s;
+}
+.circle-4 {
+  animation-delay: 0.4s;
+}
+.circle-5 {
+  animation-delay: 0.5s;
+}
+.circle-6 {
+  animation-delay: 0.6s;
+}
+.circle-7 {
+  animation-delay: 0.7s;
+}
+.circle-8 {
+  animation-delay: 0.8s;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateY(0);
+    background-color: var(--azul_chat_dark);
+  }
+  50% {
+    transform: translateY(1.5rem);
+    background-color: var(--branco_1);
+  }
+  100% {
+    transform: translateY(0);
+    background-color: var(--azul_chat_dark);
+  }
+}
+
+@keyframes loading_dark {
+  0% {
+    transform: translateY(0);
+    background-color: var(--cinza_2);
+  }
+  50% {
+    transform: translateY(1.5rem);
+    background-color: var(--vermelho_chat_dark);
+  }
+  100% {
+    transform: translateY(0);
+    background-color: var(--azul_claro_melhor_contraste);
+  }
 }
