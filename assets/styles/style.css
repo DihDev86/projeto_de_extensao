@@ -166,15 +166,21 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-.header-content {
+.header-logo {
   display: flex;
   align-items: center;
-  gap: 5px;
+  flex-direction: column;
 }
 
-.header-logo {
-  width: 160px;
+.header-logo > img {
+  width: 140px;
   height: auto;
+}
+
+.header-logo > h1 {
+  font-size: 2rem;
+  color: var(--branco_1);
+  margin-top: 10px;
 }
 
 #caminho_azul {
