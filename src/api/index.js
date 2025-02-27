@@ -12,6 +12,8 @@ app.post("/ask", async (req, res) => {
   try {
     const { question, history } = req.body;
 
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+
     if (!question) {
       return res.status(400).json({ error: "A pergunta  é obrigatória." });
     }
@@ -33,6 +35,36 @@ app.post("/ask", async (req, res) => {
     }
 
     res.status(201).json(history);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao conectar com Google Gemini AI" });
+  }
+});
+
+app.post("/stream", async (req, res) => {
+  try {
+    const { question, history } = req.body;
+
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    if (!question) {
+      return res.status(400).json({ error: "A pergunta  é obrigatória." });
+    }
+
+    const result = await gemini_ai.getStream(history, question);
+
+    console.log(result);
+
+    for await (const chunk of result.stream) {
+      if (chunk.candidates.length < 1) {
+        const errorData = await chunk.json();
+        return res.status(500).json(errorData);
+      }
+
+      res.write(marked.parse(chunk.text()));
+    }
+
+    res.end();
   } catch (error) {
     res.status(500).json({ error: "Erro ao conectar com Google Gemini AI" });
   }

@@ -181,6 +181,43 @@ async function consultarIA(pergunta) {
   return dados;
 }
 
+async function consultarIA_V2(pergunta) {
+  if (!getLocalStorage(keys.k02)) {
+    setLocalStorage(keys.k02, []);
+  }
+
+  const resposta = fetch('http://localhost:3000/stream', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      question: pergunta,
+      history: getLocalStorage(keys.k02),
+    }),
+})
+    .then(response => {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        function read() {
+            reader.read().then(({ done, value }) => {
+                if (done) {
+                    console.log('Stream concluído');
+                    return;
+                }
+                const chunk = decoder.decode(value);
+                console.log('Chunk recebido:', chunk);
+                // Atualize a interface do usuário com o chunk recebido
+                document.getElementById('resposta').textContent += chunk;
+                read(); // Ler o próximo chunk
+            });
+        }
+        read();
+    })
+    .catch(error => console.error('Erro ao consumir o stream:', error));
+}
+
 async function enviarFormulario() {
   if (validaFormulario()) {
     let savedData = getLocalStorage(keys.k01);

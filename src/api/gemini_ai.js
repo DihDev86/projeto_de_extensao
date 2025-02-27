@@ -13,16 +13,32 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 const gemini_ai = {
-  ask: async function (local_history, question) {
+  ask: async (local_history, newQuestion) => {
     try {
       const chatSession = model.startChat({
         generationConfig,
         history: local_history || [],
       });
 
-      return await chatSession.sendMessage(question || "");
+      return await chatSession.sendMessage(newQuestion || "");
     } catch (error) {
       console.error("Erro em gemini_ai.ask(): ", error);
+
+      throw error;
+    }
+  },
+
+  getStream: async (local_history, newQuestion) => {
+    try {
+      const chatSession = model.startChat({
+        generationConfig,
+        history: local_history || [],
+      });
+
+      await chatSession.sendMessageStream(newQuestion);
+    } catch (error) {
+      console.error("Erro em gemini_ai.getStream(): ", error);
+
       throw error;
     }
   },
