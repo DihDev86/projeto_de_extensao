@@ -35,7 +35,7 @@ const gemini_ai = {
         history: local_history || [],
       });
 
-      await chatSession.sendMessageStream(newQuestion);
+      return await chatSession.sendMessageStream(newQuestion);
     } catch (error) {
       console.error("Erro em gemini_ai.getStream(): ", error);
 

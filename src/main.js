@@ -181,41 +181,40 @@ async function consultarIA(pergunta) {
   return dados;
 }
 
-async function consultarIA_V2(pergunta) {
+async function consultarIAstream(pergunta) {
   if (!getLocalStorage(keys.k02)) {
     setLocalStorage(keys.k02, []);
   }
 
-  const resposta = fetch('http://localhost:3000/stream', {
-    method: 'POST',
+  const resposta = fetch("http://localhost:3000/stream", {
+    method: "POST",
     headers: {
-        'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       question: pergunta,
       history: getLocalStorage(keys.k02),
     }),
-})
-    .then(response => {
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
+  })
+    .then((response) => {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
 
-        function read() {
-            reader.read().then(({ done, value }) => {
-                if (done) {
-                    console.log('Stream concluído');
-                    return;
-                }
-                const chunk = decoder.decode(value);
-                console.log('Chunk recebido:', chunk);
-                // Atualize a interface do usuário com o chunk recebido
-                document.getElementById('resposta').textContent += chunk;
-                read(); // Ler o próximo chunk
-            });
-        }
-        read();
+      function read() {
+        reader.read().then(({ done, value }) => {
+          if (done) {
+            console.log("Stream concluído");
+            return;
+          }
+          const chunk = decoder.decode(value);
+          console.log("Chunk recebido:", chunk);
+          //  document.getElementById("resposta").textContent += chunk;
+          read(); 
+        });
+      }
+      read();
     })
-    .catch(error => console.error('Erro ao consumir o stream:', error));
+    .catch((error) => console.error("Erro ao consumir o stream:", error));
 }
 
 async function enviarFormulario() {
@@ -227,7 +226,6 @@ async function enviarFormulario() {
 
     await consultarIA(questionF)
       .then((resposta) => {
-        //console.log(resposta);
         document.getElementById("interactions").classList.remove("invisible");
         resposta.forEach((interaction, i) => {
           const isToType = i === resposta.length - 1;
@@ -235,7 +233,6 @@ async function enviarFormulario() {
           interaction.parts.forEach((part) =>
             criaInteracao(interaction, part.text, isToType)
           );
-          // console.log(interaction);
         });
       })
       .catch((erro) => console.error("Erro:", erro));
@@ -282,16 +279,18 @@ async function enviarNovaPergunta() {
   document.getElementById("chatInput").value = "";
 
   setLoading(true);
-  document.querySelector("#interactions ul").replaceChildren();
+  criaInteracao({ role: "user" }, novaPergunta, false);
 
   await consultarIA(novaPergunta)
     .then((resposta) => {
       resposta.forEach((interaction, i) => {
         const isToType = i === resposta.length - 1;
 
-        interaction.parts.forEach((part) =>
-          criaInteracao(interaction, part.text, isToType)
-        );
+        if (isToType) {
+          interaction.parts.forEach((part) =>
+            criaInteracao(interaction, part.text, true)
+          );
+        }
       });
     })
     .catch((erro) => console.error("Erro:", erro));
@@ -316,7 +315,9 @@ function criaInteracao(interaction, reponseTxt, isToType) {
   divEl2.classList.add("response");
 
   if (isToType) {
-    digitar(divEl2, reponseTxt);
+    const tagsList = getHTMLTags(reponseTxt);
+
+    typeTags(tagsList, divEl2);
   } else {
     divEl2.innerHTML = reponseTxt;
   }
@@ -328,31 +329,53 @@ function criaInteracao(interaction, reponseTxt, isToType) {
   ulEl.appendChild(liEl);
 }
 
-function digitar(elemento, texto) {
-  let i = 0;
-  let timeout = undefined;
 
-  if (texto.length < 100) {
-    timeout = 150;
-  } else if (texto.length > 500) {
-    timeout = 15;
-  } else {
-    timeout = 100;
-  }
+function getHTMLTags(text) {
+  const padrao = /<([a-zA-Z]+)([^>]*)>(.*?)<\/\1>/gs;
+  const result = text.match(padrao);
 
-  function escrever() {
-    if (i < texto.length) {
-      const char = texto[i];
+  return result || [];
+}
 
-      elemento.innerHTML += char;
-      i++;
-      setTimeout(escrever, timeout);
+function typeTags(tagsList, el) {
+  let tagIndex = 0;
+  let charIndex = 0;
+  let innerHTML = "";
+
+  const typeNextTag = () => {
+    if (tagIndex >= tagsList.length) return;
+
+    const currTag = tagsList[tagIndex];
+    let timeout = 0;
+
+    if (currTag.length < 100) {
+      timeout = 60;
+    } else if (currTag.length > 400) {
+      timeout = 15;
     } else {
-      elemento.innerHTML = texto;
+      timeout = 30;
     }
-  }
 
-  escrever();
+    const typeNextChar = () => {
+      if (charIndex >= currTag.length) {
+        tagIndex++;
+        charIndex = 0;
+        innerHTML += currTag;
+        el.innerHTML = innerHTML;
+
+        setTimeout(typeNextTag, timeout * 5);
+        return;
+      }
+
+      el.innerHTML += currTag[charIndex];
+      charIndex++;
+      setTimeout(typeNextChar, timeout);
+    };
+
+    typeNextChar();
+  };
+
+  typeNextTag();
 }
 
 // ===========================================================================

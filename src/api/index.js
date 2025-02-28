@@ -11,13 +11,15 @@ app.use(cors());
 app.post("/ask", async (req, res) => {
   try {
     const { question, history } = req.body;
+    //console.log("Pergunta: ", question);
+    //console.log("Histórico: ", history);  
 
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
 
     if (!question) {
       return res.status(400).json({ error: "A pergunta  é obrigatória." });
     }
-
+    
     const { response } = await gemini_ai.ask(history, question);
 
     if (response.candidates.length < 1) {
@@ -36,7 +38,8 @@ app.post("/ask", async (req, res) => {
 
     res.status(201).json(history);
   } catch (error) {
-    res.status(500).json({ error: "Erro ao conectar com Google Gemini AI" });
+    res.status(error.status)
+      .json({ error, erroMsg: "Erro ao conectar com Google Gemini AI" });
   }
 });
 
@@ -53,8 +56,6 @@ app.post("/stream", async (req, res) => {
 
     const result = await gemini_ai.getStream(history, question);
 
-    console.log(result);
-
     for await (const chunk of result.stream) {
       if (chunk.candidates.length < 1) {
         const errorData = await chunk.json();
@@ -62,11 +63,14 @@ app.post("/stream", async (req, res) => {
       }
 
       res.write(marked.parse(chunk.text()));
+      //res.write(chunk.text());
     }
 
     res.end();
   } catch (error) {
-    res.status(500).json({ error: "Erro ao conectar com Google Gemini AI" });
+    res
+      .status(error.status)
+      .json({ error, erroMsg: "Erro ao conectar com Google Gemini AI" });
   }
 });
 
