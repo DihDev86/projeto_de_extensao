@@ -116,11 +116,17 @@
             </ul>
             <div class="form-group">
             <label for="nomeResponsavel">Quer falar mais?</label>
-            <textarea id="chatInput" name="chatInput"></textarea>
-            </div>
-            <div class="colums">
-                <button type="button" onclick="enviarNovaPergunta()">Perguntar</button>
-                <button type="button" class="clear" onclick="limparFormulario()">Apagar</button>
+            <div class="chat-input">
+                <textarea id="chatInput" placeholder="Digite sua mensagem..."></textarea>
+                <div class="colums">
+                  <button id="send-button" title="Enviar mensagem" onclick="enviarNovaPergunta()">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                  <button class="clear" title="Apagar toda a conversa." onclick="limparFormulario()">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
             </div>
         </div>
     </section>

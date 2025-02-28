@@ -24,8 +24,9 @@ select {
 
 textarea {
   resize: none;
-  min-height: 6rem;
-  min-width: 30rem;
+  min-height: 7rem;
+  min-width: 35rem;
+  padding: 0.5rem;
 }
 
 input:focus,
