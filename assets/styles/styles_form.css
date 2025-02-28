@@ -1,0 +1,228 @@
+.colums {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+form,
+section > div {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--cinza_1);
+  border-radius: 8px;
+  outline: none;
+  box-shadow: 3px 5px 6px 1px rgba(0, 0, 0, 0.12);
+  background-color: var(--branco_1);
+}
+
+textarea {
+  resize: none;
+  min-height: 7rem;
+  min-width: 35rem;
+  padding: 0.5rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: transparent;
+  outline: 3px solid var(--azul_principal);
+  box-shadow: 0 0 5px rgba(66, 133, 244, 0.2);
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--cinza_1);
+}
+
+input::placeholder,
+textarea::placeholder,
+select:placeholder {
+  color: #aaa;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+#nomeResponsavel {
+  width: 100%;
+}
+
+#idade {
+  width: 4rem;
+}
+
+.form-group > input,
+.form-group > select,
+.form-group > textarea {
+  width: fit-content;
+  padding: 12px;
+}
+
+#idade,
+select > option {
+  text-align: center;
+}
+
+.form-group label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+#formulario > form > div:nth-child(1) {
+  margin-bottom: 25px;
+}
+
+#formulario > form > div:nth-child(2) {
+  display: flex;
+  justify-content: space-around;
+}
+
+.clear {
+  background-color: red;
+}
+.clear:hover {
+  background-color: var(--vermelho_escuro);
+}
+
+#interactions > h2 {
+  margin-bottom: 25px;
+}
+
+#interactions > div.form-group {
+  margin: 20px auto;
+  border: 1px solid var(--cinza_1);
+  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--branco_1);
+}
+
+.interaction {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.invisible,
+#loading-overlay.invisible {
+  display: none;
+}
+
+/* Balões do chat: */
+.response > p,
+.response li {
+  margin: 0.5rem 0;
+  line-height: 0.9;
+  font-size: 1.1rem;
+}
+
+.user,
+.model {
+  margin: 1rem 0;
+}
+
+.user {
+  margin-left: 2rem;
+}
+
+.model {
+  text-align: right;
+  margin-right: 2rem;
+}
+
+h4.user {
+  color: var(--azul_principal);
+}
+
+h4.model {
+  color: var(--vermelho_escuro);
+}
+
+.dark-mode .interaction > div {
+  box-shadow: 0 0.125rem 0.5rem var(--cinza_2),
+    0 0.0625rem 0.125rem var(--cinza_1);
+}
+
+.interaction > div {
+  position: relative;
+  padding: 1.125em 1.5em;
+  font-size: 1.25em;
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.5rem var(--cinza_1),
+    0 0.0625rem 0.125rem var(--cinza_2);
+}
+
+.dark-mode .interaction > div.user {
+  background-color: var(--azul_chat_dark);
+}
+
+.dark-mode .interaction > div.user::before {
+  left: 1.5em;
+  border-bottom-color: var(--azul_chat_dark);
+}
+
+.dark-mode .interaction > div.model {
+  background-color: var(--vermelho_chat_dark);
+}
+
+.dark-mode .interaction > div.model::before {
+  right: 1.5em;
+  border-bottom-color: var(--vermelho_chat_dark);
+}
+
+.interaction > div.user {
+  background-color: var(--azul_chat);
+}
+
+.interaction > div.user::before {
+  left: 1.5em;
+  border-bottom-color: var(--azul_chat);
+}
+
+.interaction > div.model {
+  background-color: var(--vermelho_chat);
+}
+
+.interaction > div.model::before {
+  right: 1.5em;
+  border-bottom-color: var(--vermelho_chat);
+}
+
+.dark-mode .interaction > div::before {
+  filter: drop-shadow(0 -0.17rem 0.16rem var(--cinza_2));
+}
+
+.interaction > div::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 100%;
+
+  border: 0.75rem solid transparent;
+  border-top: none;
+  border-bottom-color: var(--branco_1);
+  filter: drop-shadow(0 -0.0625rem 0.0625rem var(--cinza_2));
+}
+
+.response strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+div.response ul > li {
+  list-style-type: initial;
+}
